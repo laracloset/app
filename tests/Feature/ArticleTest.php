@@ -3,10 +3,13 @@
 namespace Tests\Feature;
 
 use App\Article;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class ArticleTest extends TestCase
 {
+    use DatabaseMigrations;
+
     /**
      * @return void
      */
