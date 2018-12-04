@@ -16,6 +16,11 @@ class CreateArticlesTable extends Migration
         Schema::create('articles', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->text('body');
+            $table->string('state');
+            $table->softDeletes('deleted_at');
         });
     }
 
