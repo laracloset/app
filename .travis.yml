@@ -9,6 +9,7 @@ addons:
   chrome: stable
 
 install:
+  - mysql -e 'create database homestead;'
   - cp .env.travis .env
   - travis_retry composer install --no-interaction --prefer-dist --no-suggest
   - php artisan key:generate
