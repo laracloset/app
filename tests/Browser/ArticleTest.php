@@ -17,12 +17,31 @@ class ArticleTest extends DuskTestCase
      */
     public function testIndex()
     {
-        $article = factory(Article::class)->create();
+        $articles = factory(Article::class, 20)->create();
 
-        $this->browse(function (Browser $browser) use ($article) {
+        $this->browse(function (Browser $browser) use ($articles) {
             $browser->visit('/articles')
+                ->assertDontSee($articles->first()->title)
+                ->assertSee($articles->last()->title)
                 ->assertTitleContains('Articles')
-                ->assertSee($article->title);
+                ->assertSee($articles->last()->title)
+                ->assertSeeLink('2');
+        });
+    }
+
+    /**
+     * @return void
+     * @throws \Throwable
+     */
+    public function testIndexWithDraft()
+    {
+        $draft = factory(Article::class)->create([
+            'state' => Article::DRAFT
+        ]);
+
+        $this->browse(function (Browser $browser) use ($draft) {
+            $browser->visit('/articles')
+                ->assertDontSee($draft->title);
         });
     }
 
