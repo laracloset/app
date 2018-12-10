@@ -13,7 +13,10 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::query()->paginate();
+        $articles = Article::query()
+            ->where('state', Article::PUBLISHED)
+            ->orderBy('id', 'DESC')
+            ->paginate();
 
         return view('article.index', compact('articles'));
     }
@@ -26,7 +29,9 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article = Article::query()->findOrFail($id);
+        $article = Article::query()
+            ->where('state', Article::PUBLISHED)
+            ->findOrFail($id);
 
         return view('article.show', compact('article'));
     }

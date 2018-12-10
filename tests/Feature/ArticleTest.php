@@ -38,4 +38,17 @@ class ArticleTest extends TestCase
         $this->get('/articles/0')
             ->assertNotFound();
     }
+
+    /**
+     * @return void
+     */
+    public function testGetDetailWithDraft()
+    {
+        $draft = factory(Article::class)->create([
+            'state' => Article::DRAFT
+        ]);
+
+        $this->get('/articles/' . $draft->id)
+            ->assertNotFound();
+    }
 }
