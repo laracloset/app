@@ -37,7 +37,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-primary" dusk="update">Update</button>
                 </form>
             </div>
         </div>
