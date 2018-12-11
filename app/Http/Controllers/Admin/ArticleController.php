@@ -93,7 +93,6 @@ class ArticleController extends Controller
         $article->slug = $request->get('slug');
         $article->body = $request->get('body');
         $article->state = $request->get('state');
-
         $article->save();
 
         flash('The article has been saved.')->success();
