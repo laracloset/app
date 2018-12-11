@@ -76,7 +76,8 @@ class ArticleTest extends DuskTestCase
                 ->select('state', $article->state)
                 ->click('@add')
                 ->assertPathIs('/admin/articles')
-                ->assertSee($article->title);
+                ->assertSee($article->title)
+                ->assertSee('The article has been saved.');
         });
     }
 
@@ -96,7 +97,8 @@ class ArticleTest extends DuskTestCase
                 ->type('title', $newTitle)
                 ->click('@update')
                 ->assertPathIs('/admin/articles')
-                ->assertSee($newTitle);
+                ->assertSee($newTitle)
+                ->assertSee('The article has been saved.');
         });
     }
 
@@ -130,8 +132,9 @@ class ArticleTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($article) {
             $browser->visit('/admin/articles')
                 ->click('@delete')
+                ->assertDontSee($article->title)
                 ->assertPathIs('/admin/articles')
-                ->assertDontSee($article->title);
+                ->assertSee('The article has been deleted.');
         });
     }
 }
