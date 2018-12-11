@@ -47,6 +47,8 @@ class ArticleController extends Controller
         ]);
         $article->save();
 
+        flash('The article has been saved.')->success();
+
         return redirect('/admin/articles');
     }
 
@@ -93,6 +95,8 @@ class ArticleController extends Controller
         $article->state = $request->get('state');
         $article->save();
 
+        flash('The article has been saved.')->success();
+
         return redirect('/admin/articles');
     }
 
@@ -106,6 +110,8 @@ class ArticleController extends Controller
     {
         $article = Article::query()->find($id);
         $article->delete();
+
+        flash('The article has been deleted.')->success();
 
         return redirect('/admin/articles');
     }
