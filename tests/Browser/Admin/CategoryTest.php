@@ -63,18 +63,42 @@ class CategoryTest extends DuskTestCase
      * @return void
      * @throws \Throwable
      */
-    public function testAdding()
+    public function testAddingAsRoot()
     {
-        $category = factory(Category::class)->make();
+        $this->browse(function (Browser $browser) {
+            $category = factory(Category::class)->make();
 
-        $this->browse(function (Browser $browser) use ($category) {
             $browser->visit('/admin/categories')
                 ->clickLink('Create Category')
                 ->type('name', $category->name)
                 ->type('slug', $category->slug)
                 ->click('@add')
                 ->assertPathIs('/admin/categories')
-                ->assertSee($category->name);
+                ->assertSee($category->name)
+                ->assertSee('The category has been saved.');
+        });
+    }
+
+    /**
+     * @return void
+     * @throws \Throwable
+     */
+    public function testAddingAsChild()
+    {
+        $parent = factory(Category::class)->create();
+
+        $this->browse(function (Browser $browser) use ($parent) {
+            $category = factory(Category::class)->make();
+
+            $browser->visit('/admin/categories')
+                ->clickLink('Create Category')
+                ->type('name', $category->name)
+                ->type('slug', $category->slug)
+                ->select('parent_id', $parent->id)
+                ->click('@add')
+                ->assertPathIs('/admin/categories')
+                ->assertSee($category->name)
+                ->assertSee('The category has been saved.');
         });
     }
 
@@ -84,17 +108,24 @@ class CategoryTest extends DuskTestCase
      */
     public function testEditing()
     {
-        $category = factory(Category::class)->create();
+        $parent = factory(Category::class)->create();
+        $category = factory(Category::class)->create([
+            'parent_id' => $parent->id
+        ]);
 
         $this->browse(function (Browser $browser) use ($category) {
             $newTitle = Lorem::word();
 
             $browser->visit('/admin/categories')
                 ->clickLink('Edit')
+                ->assertInputValue('name', $category->name)
+                ->assertInputValue('slug', $category->slug)
+                ->assertSelected('parent_id', $category->parent_id)
                 ->type('name', $newTitle)
                 ->click('@update')
                 ->assertPathIs('/admin/categories')
-                ->assertSee($newTitle);
+                ->assertSee($newTitle)
+                ->assertSee('The category has been saved.');
         });
     }
 
@@ -127,8 +158,9 @@ class CategoryTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($category) {
             $browser->visit('/admin/categories')
                 ->click('@delete')
+                ->assertDontSee($category->name)
                 ->assertPathIs('/admin/categories')
-                ->assertDontSee($category->name);
+                ->assertSee('The category has been deleted.');
         });
     }
 }

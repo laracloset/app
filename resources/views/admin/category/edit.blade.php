@@ -20,6 +20,19 @@
                         <label for="slug">Slug</label>
                         <input type="text" class="form-control" name="slug" value="{{ $category->slug }}"/>
                     </div>
+                    <div class="form-group">
+                        <label for="parent_id">Parent</label>
+                        <select class="form-control" name="parent_id">
+                            <option value="">Choose...</option>
+                            @foreach($categories as $parent)
+                                @if($parent->id == $category->parent_id)
+                                    <option value="{{ $parent->id }}" selected>{{ $parent->name }}</option>
+                                @else
+                                    <option value="{{ $parent->id }}">{{ $parent->name }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-primary" dusk="update">Update</button>
                 </form>
             </div>

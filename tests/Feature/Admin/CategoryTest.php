@@ -10,15 +10,6 @@ class CategoryTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public $category;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->category = factory(Category::class)->create();
-    }
-
     /**
      * @return void
      */
@@ -40,19 +31,40 @@ class CategoryTest extends TestCase
     /**
      * @return void
      */
-    public function testStore()
+    public function testStoreAsRoot()
     {
-        $all = Category::all();
-
-        $new = factory(Category::class)->make();
+        $category = factory(Category::class)->make();
 
         $this->post('/admin/categories', [
-            'name' => $new->name,
-            'slug' => $new->slug,
+            'name' => $category->name,
+            'slug' => $category->slug,
         ])
             ->assertRedirect('/admin/categories');
 
-        $this->assertEquals(1, count(Category::all()) - count($all));
+        $saved = Category::query()->latest('id')->first();
+        $this->assertEquals($category->name, $saved->name);
+        $this->assertEquals($category->slug, $saved->slug);
+        $this->assertNull($saved->parent_id);
+        $this->assertEquals(1, Category::query()->count());
+    }
+
+    /**
+     * @return void
+     */
+    public function testStoreAsChild()
+    {
+        $parent = factory(Category::class)->create();
+        $category = factory(Category::class)->make();
+
+        $this->post('/admin/categories', [
+            'name' => $category->name,
+            'slug' => $category->slug,
+            'parent_id' => $parent->id,
+        ])
+            ->assertRedirect('/admin/categories');
+
+        $saved = Category::query()->latest('id')->first();
+        $this->assertEquals($parent->id, $saved->parent_id);
     }
 
     /**
@@ -60,7 +72,9 @@ class CategoryTest extends TestCase
      */
     public function testShow()
     {
-        $this->get('/admin/categories/' . $this->category->id)
+        $category = factory(Category::class)->create();
+
+        $this->get('/admin/categories/' . $category->id)
             ->assertOk();
     }
 
@@ -69,7 +83,9 @@ class CategoryTest extends TestCase
      */
     public function testEdit()
     {
-        $this->get('/admin/categories/' . $this->category->id)
+        $category = factory(Category::class)->create();
+
+        $this->get('/admin/categories/' . $category->id)
             ->assertOk();
     }
 
@@ -78,17 +94,21 @@ class CategoryTest extends TestCase
      */
     public function testUpdate()
     {
+        $category = factory(Category::class)->create();
         $new = factory(Category::class)->make();
 
-        $this->put('/admin/categories/' . $this->category->id, [
+        $this->put('/admin/categories/' . $category->id, [
             'name' => $new->name,
             'slug' => $new->slug,
+            'parent_id' => $new->parent_id,
         ])
             ->assertRedirect('/admin/categories');
 
-        $updated = Category::query()->find($this->category->id);
+        $updated = Category::query()->find($category->id);
 
         $this->assertEquals($updated->title, $new->title);
+        $this->assertEquals($updated->slug, $new->slug);
+        $this->assertEquals($updated->parent_id, $new->parent_id);
     }
 
     /**
@@ -96,9 +116,11 @@ class CategoryTest extends TestCase
      */
     public function testDestroy()
     {
-        $this->delete('/admin/categories/' . $this->category->id)
+        $category = factory(Category::class)->create();
+
+        $this->delete('/admin/categories/' . $category->id)
             ->assertRedirect('/admin/categories');
 
-        $this->assertNull(Category::query()->find($this->category->id));
+        $this->assertNull(Category::query()->find($category->id));
     }
 }
