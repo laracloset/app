@@ -27,4 +27,5 @@ Route::get('/articles/{article}', 'ArticleController@show');
 
 Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::resource('articles', 'ArticleController');
+    Route::resource('categories', 'CategoryController');
 });
