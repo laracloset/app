@@ -21,6 +21,10 @@
                 <dd>{{ $category->slug }}</dd>
             </dl>
             <dl>
+                <dt>Parent Id</dt>
+                <dd>{{ $category->parent_id }}</dd>
+            </dl>
+            <dl>
                 <dt>Created At</dt>
                 <dd>{{ $category->created_at }}</dd>
             </dl>

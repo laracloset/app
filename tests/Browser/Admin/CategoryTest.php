@@ -143,7 +143,8 @@ class CategoryTest extends DuskTestCase
                 ->assertPathIs('/admin/categories/' . $category->id)
                 ->assertSee($category->id)
                 ->assertSee($category->name)
-                ->assertSee($category->slug);
+                ->assertSee($category->slug)
+                ->assertSee($category->parent_id);
         });
     }
 
