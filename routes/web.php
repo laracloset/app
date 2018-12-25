@@ -28,4 +28,6 @@ Route::get('/articles/{article}', 'ArticleController@show');
 Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::resource('articles', 'ArticleController');
     Route::resource('categories', 'CategoryController');
+    Route::put('categories/{category}/move_down', 'CategoryController@moveDown')->name('categories.move_down');
+    Route::put('categories/{category}/move_up', 'CategoryController@moveUp')->name('categories.move_up');
 });

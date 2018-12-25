@@ -15,8 +15,8 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::query()
-            ->orderBy('id', 'DESC')
-            ->paginate();
+            ->orderBy('_lft', 'asc')
+            ->get();
 
         return view('admin.category.index', compact('categories'));
     }
@@ -114,6 +114,38 @@ class CategoryController extends Controller
         $category->delete();
 
         flash('The category has been deleted.')->success();
+
+        return redirect('/admin/categories');
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function moveDown($id)
+    {
+        $category = Category::query()->find($id);
+        if ($category->down()) {
+            flash('Move down successfully.')->success();
+        } else {
+            flash('Could not move down.')->error();
+        }
+
+        return redirect('/admin/categories');
+    }
+
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function moveUp($id)
+    {
+        $category = Category::query()->find($id);
+        if ($category->up()) {
+            flash('Move up successfully.')->success();
+        } else {
+            flash('Could not move up.')->error();
+        }
 
         return redirect('/admin/categories');
     }

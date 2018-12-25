@@ -6,6 +6,11 @@ $factory->define(\App\Category::class, function (Faker $faker) {
     return [
         'name' => $faker->word(),
         'slug' => $faker->unique()->slug(),
-        'parent_id' => $faker->randomDigit(),
+    ];
+});
+
+$factory->state(\App\Category::class, 'child', function (Faker $faker) {
+    return [
+        'parent_id' => factory(\App\Category::class)->create()->id,
     ];
 });

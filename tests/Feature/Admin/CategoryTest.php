@@ -123,4 +123,38 @@ class CategoryTest extends TestCase
 
         $this->assertNull(Category::query()->find($category->id));
     }
+
+    /**
+     * @return void
+     */
+    public function testMoveDown()
+    {
+        list($node1, $node2) = factory(Category::class, 2)->create();
+
+        $this->put('/admin/categories/' . $node1->id . '/move_down')
+            ->assertRedirect('/admin/categories');
+
+        $top = Category::query()
+            ->orderBy('_lft', 'asc')
+            ->first();
+
+        $this->assertEquals($node2->id, $top->id);
+    }
+
+    /**
+     * @return void
+     */
+    public function testMoveUp()
+    {
+        list($node1, $node2) = factory(Category::class, 2)->create();
+
+        $this->put('/admin/categories/' . $node2->id . '/move_up')
+            ->assertRedirect('/admin/categories');
+
+        $bottom = Category::query()
+            ->orderBy('_lft', 'desc')
+            ->first();
+
+        $this->assertEquals($node1->id, $bottom->id);
+    }
 }
