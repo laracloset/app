@@ -28,6 +28,18 @@
                             <a class="btn btn-primary"
                                href="{{ route('categories.edit', $category->id) }}"
                                role="button">Edit</a>
+                            <form action="{{ route('categories.move_up', $category->id)}}" method="post"
+                                  class="d-inline">
+                                @csrf
+                                @method('PUT')
+                                <button class="btn btn-primary" type="submit" dusk="move_up_{{ $category->id }}">Move Up</button>
+                            </form>
+                            <form action="{{ route('categories.move_down', $category->id)}}" method="post"
+                                  class="d-inline">
+                                @csrf
+                                @method('PUT')
+                                <button class="btn btn-primary" type="submit" dusk="move_down_{{ $category->id }}">Move Down</button>
+                            </form>
                             <form action="{{ route('categories.destroy', $category->id)}}" method="post"
                                   class="d-inline">
                                 @csrf
@@ -39,8 +51,6 @@
                 @endforeach
                 </tbody>
             </table>
-
-            {{ $categories->links() }}
         </div>
     </div>
 @endsection
