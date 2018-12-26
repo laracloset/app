@@ -45,4 +45,12 @@ class Article extends Model
 
         throw new \Exception('Invalid state');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
+    }
 }
