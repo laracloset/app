@@ -23,6 +23,14 @@
                     <textarea class="form-control" name="body"></textarea>
                 </div>
                 <div class="form-group">
+                    <label for="body">Category</label>
+                    <select class="form-control" name="category[]" multiple>
+                        @foreach($list as $key => $value)
+                            <option value="{{ $key }}">{{ $value }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="body">State</label>
                     <select class="form-control" name="state">
                         <option selected>Choose...</option>
