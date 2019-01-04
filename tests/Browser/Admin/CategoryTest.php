@@ -199,4 +199,30 @@ class CategoryTest extends DuskTestCase
                 ->assertSee('Move up successfully.');
         });
     }
+
+    /**
+     * @return void
+     * @throws \Throwable
+     */
+    public function testRequestValidation()
+    {
+        $this->browse(function (Browser $browser) {
+            $existing = factory(Category::class)->create();
+
+            $browser->visit('/admin/categories')
+                ->clickLink('Create Category')
+                ->click('@add')
+                ->assertPathIs('/admin/categories/create')
+                ->assertSee('The name field is required.')
+                ->assertSee('The slug field is required.');
+
+            // Tests whether slug field is unique or not.
+            $browser->visit('/admin/categories')
+                ->clickLink('Create Category')
+                ->type('slug', $existing->slug)
+                ->click('@add')
+                ->assertPathIs('/admin/categories/create')
+                ->assertSee('The slug has already been taken.');
+        });
+    }
 }

@@ -33,7 +33,7 @@
                 <div class="form-group">
                     <label for="body">State</label>
                     <select class="form-control" name="state">
-                        <option selected>Choose...</option>
+                        <option value="">Choose...</option>
                         @foreach(\App\Article::getAvailableStates() as $key => $value)
                             <option value="{{ $key }}">{{ $value }}</option>
                         @endforeach

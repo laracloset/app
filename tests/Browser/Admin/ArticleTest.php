@@ -137,4 +137,31 @@ class ArticleTest extends DuskTestCase
                 ->assertSee('The article has been deleted.');
         });
     }
+
+    /**
+     * @return void
+     * @throws \Throwable
+     */
+    public function testRequestValidation()
+    {
+        $this->browse(function (Browser $browser) {
+            $existing = factory(Article::class)->create();
+
+            $browser->visit('/admin/articles')
+                ->clickLink('Create Article')
+                ->click('@add')
+                ->assertPathIs('/admin/articles/create')
+                ->assertSee('The title field is required.')
+                ->assertSee('The body field is required.')
+                ->assertSee('The state field is required.');
+
+            // Tests whether slug field is unique or not.
+            $browser->visit('/admin/articles')
+                ->clickLink('Create Article')
+                ->type('slug', $existing->slug)
+                ->click('@add')
+                ->assertPathIs('/admin/articles/create')
+                ->assertSee('The slug has already been taken.');
+        });
+    }
 }
