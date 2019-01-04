@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Article;
+use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
@@ -28,7 +30,21 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('admin.article.create');
+
+        $categoryCollection = Category::query()
+            ->get()
+            ->toTree();
+
+        $list = [];
+        $traverse = function ($categories, $prefix = '-') use (&$traverse, &$list) {
+            foreach ($categories as $category) {
+                $list[$category->id] = $prefix . $category->name;
+                $traverse($category->children, $prefix . '-');
+            }
+        };
+        $traverse($categoryCollection);
+
+        return view('admin.article.create', compact('list'));
     }
 
     /**
@@ -39,14 +55,28 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $article = new Article([
-            'title' => $request->get('title'),
-            'slug' => $request->get('slug'),
-            'body' => $request->get('body'),
-            'state' => $request->get('state'),
-        ]);
-        $article->save();
+        DB::beginTransaction();
 
+        try {
+
+            $article = new Article([
+                'title' => $request->get('title'),
+                'slug' => $request->get('slug'),
+                'body' => $request->get('body'),
+                'state' => $request->get('state'),
+            ]);
+            $article->save();
+            $article->categories()->sync($request->get('category'));
+
+        } catch (\Exception $e) {
+
+            DB::rollback();
+            flash('The article could not been saved. Please, try again.')->error();
+
+            return back()->withInput();
+        }
+
+        DB::commit();
         flash('The article has been saved.')->success();
 
         return redirect('/admin/articles');
@@ -74,8 +104,24 @@ class ArticleController extends Controller
     public function edit($id)
     {
         $article = Article::query()->find($id);
+        $categoryIds = $article->categories->map(function ($item, $key) {
+            return $item->id;
+        })->all();
 
-        return view('admin.article.edit', compact('article'));
+        $categoryCollection = Category::query()
+            ->get()
+            ->toTree();
+
+        $list = [];
+        $traverse = function ($categories, $prefix = '-') use (&$traverse, &$list) {
+            foreach ($categories as $category) {
+                $list[$category->id] = $prefix . $category->name;
+                $traverse($category->children, $prefix . '-');
+            }
+        };
+        $traverse($categoryCollection);
+
+        return view('admin.article.edit', compact('article', 'categoryIds', 'list'));
     }
 
     /**
@@ -89,12 +135,26 @@ class ArticleController extends Controller
     {
         $article = Article::query()->find($id);
 
-        $article->title = $request->get('title');
-        $article->slug = $request->get('slug');
-        $article->body = $request->get('body');
-        $article->state = $request->get('state');
-        $article->save();
+        DB::beginTransaction();
 
+        try {
+
+            $article->title = $request->get('title');
+            $article->slug = $request->get('slug');
+            $article->body = $request->get('body');
+            $article->state = $request->get('state');
+            $article->save();
+            $article->categories()->sync($request->get('category'));
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            flash('The article could not been saved. Please, try again.')->error();
+
+            return back()->withInput();
+        }
+
+        DB::commit();
         flash('The article has been saved.')->success();
 
         return redirect('/admin/articles');
@@ -109,8 +169,23 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         $article = Article::query()->find($id);
-        $article->delete();
 
+        DB::beginTransaction();
+
+        try {
+
+            $article->categories()->sync([]);
+            $article->delete();
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            flash('The article could not be deleted.')->error();
+
+            return back()->withInput();
+        }
+
+        DB::commit();
         flash('The article has been deleted.')->success();
 
         return redirect('/admin/articles');

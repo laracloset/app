@@ -3,6 +3,7 @@
 namespace Tests\Feature\Admin;
 
 use App\Article;
+use App\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -17,6 +18,10 @@ class ArticleTest extends TestCase
         parent::setUp();
 
         $this->article = factory(Article::class)->create();
+
+        $this->article->each(function ($a) {
+            $a->categories()->save(factory(Category::class)->make());
+        });
     }
 
     /**
@@ -44,6 +49,7 @@ class ArticleTest extends TestCase
     {
         $all = Article::all();
 
+        $categories = factory(Category::class, 2)->create();
         $new = factory(Article::class)->make();
 
         $this->post('/admin/articles', [
@@ -51,10 +57,16 @@ class ArticleTest extends TestCase
             'slug' => $new->slug,
             'body' => $new->body,
             'state' => $new->state,
+            'category' => $categories->map(function ($item, $key) {
+                return $item->id;
+            })->all()
         ])
             ->assertRedirect('/admin/articles');
 
+        $saved = Article::query()->latest('id')->first();
+
         $this->assertEquals(1, count(Article::all()) - count($all));
+        $this->assertEquals(2, $saved->categories->count());
     }
 
     /**
@@ -80,6 +92,7 @@ class ArticleTest extends TestCase
      */
     public function testUpdate()
     {
+        $categories = factory(Category::class, 2)->create();
         $new = factory(Article::class)->make();
 
         $this->put('/admin/articles/' . $this->article->id, [
@@ -87,12 +100,16 @@ class ArticleTest extends TestCase
             'slug' => $new->slug,
             'body' => $new->body,
             'state' => $new->state,
+            'category' => $categories->map(function ($item, $key) {
+                return $item->id;
+            })->all()
         ])
             ->assertRedirect('/admin/articles');
 
         $updated = Article::query()->find($this->article->id);
 
         $this->assertEquals($updated->title, $new->title);
+        $this->assertEquals(2, $updated->categories->count());
     }
 
     /**

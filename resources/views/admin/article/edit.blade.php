@@ -24,6 +24,18 @@
                     <textarea class="form-control" name="body">{{ $article->body }}</textarea>
                 </div>
                 <div class="form-group">
+                    <label for="body">Category</label>
+                    <select class="form-control" name="category[]" multiple>
+                        @foreach($list as $key => $value)
+                            @if(in_array($key, $categoryIds))
+                                <option value="{{ $key }}" selected>{{ $value }}</option>
+                            @else
+                                <option value="{{ $key }}">{{ $value }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="body">State</label>
                     <select class="form-control" name="state">
                         <option selected>Choose...</option>
