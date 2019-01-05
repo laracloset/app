@@ -4,6 +4,7 @@ namespace Tests\Browser\Admin;
 
 
 use App\Article;
+use App\Category;
 use Faker\Provider\Lorem;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
@@ -70,6 +71,11 @@ class ArticleTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($article) {
             $browser->visit('/admin/articles')
                 ->clickLink('Create Article')
+                ->assertInputValue('title', '')
+                ->assertInputValue('slug', '')
+                ->assertInputValue('body', '')
+                ->assertSelected('category[]', '')
+                ->assertSelected('state', '')
                 ->type('title', $article->title)
                 ->type('slug', $article->slug)
                 ->type('body', $article->body)
@@ -88,12 +94,20 @@ class ArticleTest extends DuskTestCase
     public function testEditing()
     {
         $article = factory(Article::class)->create();
+        $article->each(function ($a) {
+            $a->categories()->save(factory(Category::class)->make());
+        });
 
         $this->browse(function (Browser $browser) use ($article) {
             $newTitle = Lorem::word();
 
             $browser->visit('/admin/articles')
                 ->clickLink('Edit')
+                ->assertInputValue('title', $article->title)
+                ->assertInputValue('slug', $article->slug)
+                ->assertInputValue('body', $article->body)
+                ->assertSelected('category[]', $article->categories[0]->id)
+                ->assertSelected('state', $article->state)
                 ->type('title', $newTitle)
                 ->click('@update')
                 ->assertPathIs('/admin/articles')
@@ -162,6 +176,51 @@ class ArticleTest extends DuskTestCase
                 ->click('@add')
                 ->assertPathIs('/admin/articles/create')
                 ->assertSee('The slug has already been taken.');
+        });
+    }
+
+    /**
+     * @return void
+     * @throws \Throwable
+     */
+    public function testFillingFieldsWithOldValues()
+    {
+        $article = factory(Article::class)->create([
+            'state' => Article::PUBLISHED
+        ]);
+        $article->each(function ($a) {
+            $a->categories()->saveMany(factory(Category::class, 2)->make());
+        });
+
+        $this->browse(function (Browser $browser) use ($article) {
+
+            // Fill title field with invalid value on create new
+            $browser->visit('/admin/articles/create')
+                ->type('title', str_repeat('a', 256))
+                ->type('slug', 'foo')
+                ->type('body', 'bar')
+                ->select('category[]', $article->categories[0]->id)
+                ->select('state', Article::PUBLISHED)
+                ->click('@add')
+                ->assertInputValue('title', str_repeat('a', 256))
+                ->assertInputValue('slug', 'foo')
+                ->assertInputValue('body', 'bar')
+                ->assertSelected('category[]', $article->categories[0]->id)
+                ->assertSelected('state', Article::PUBLISHED);
+
+            // Fill title field with invalid value on update existing
+            $browser->visit('/admin/articles/' . $article->id . '/edit')
+                ->type('title', str_repeat('a', 256))
+                ->type('slug', 'foo')
+                ->type('body', 'bar')
+                ->select('category[]', $article->categories[0]->id)
+                ->select('state', Article::DRAFT)
+                ->click('@update')
+                ->assertInputValue('title', str_repeat('a', 256))
+                ->assertInputValue('slug', 'foo')
+                ->assertInputValue('body', 'bar')
+                ->assertSelected('category[]', $article->categories[1]->id)
+                ->assertSelected('state', Article::DRAFT);
         });
     }
 }
