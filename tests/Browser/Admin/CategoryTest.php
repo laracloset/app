@@ -57,6 +57,9 @@ class CategoryTest extends DuskTestCase
 
             $browser->visit('/admin/categories')
                 ->clickLink('Create Category')
+                ->assertInputValue('name', '')
+                ->assertInputValue('slug', '')
+                ->assertSelected('parent_id', '')
                 ->type('name', $category->name)
                 ->type('slug', $category->slug)
                 ->click('@add')
@@ -223,6 +226,38 @@ class CategoryTest extends DuskTestCase
                 ->click('@add')
                 ->assertPathIs('/admin/categories/create')
                 ->assertSee('The slug has already been taken.');
+        });
+    }
+
+    /**
+     * @return void
+     * @throws \Throwable
+     */
+    public function testFillingFieldsWithOldValues()
+    {
+        $category = factory(Category::class)->create();
+
+        $this->browse(function (Browser $browser) use ($category) {
+
+            // Fill name field with invalid value on create new
+            $browser->visit('/admin/categories/create')
+                ->type('name', str_repeat('a', 256))
+                ->type('slug', 'foo')
+                ->select('parent_id', $category->id)
+                ->click('@add')
+                ->assertInputValue('name', str_repeat('a', 256))
+                ->assertInputValue('slug', 'foo')
+                ->assertSelected('parent_id', $category->id);
+
+            // Fill name field with invalid value on update existing
+            $browser->visit('/admin/categories/' . $category->id . '/edit')
+                ->type('name', str_repeat('a', 256))
+                ->type('slug', 'foo')
+                ->select('parent_id', $category->id)
+                ->click('@update')
+                ->assertInputValue('name', str_repeat('a', 256))
+                ->assertInputValue('slug', 'foo')
+                ->assertSelected('parent_id', $category->id);
         });
     }
 }
