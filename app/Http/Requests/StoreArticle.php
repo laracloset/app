@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreArticle extends FormRequest
 {
@@ -24,10 +25,21 @@ class StoreArticle extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'bail|required|max:255',
-            'slug' => 'bail|required|unique:articles|max:255',
-            'body' => 'bail|required',
-            'state' => 'bail|required',
+            'title' => [
+                'required',
+                'max:255',
+            ],
+            'slug' => [
+                'required',
+                Rule::unique('articles')->ignore($this->article),
+                'max:255'
+            ],
+            'body' => [
+                'required'
+            ],
+            'state' => [
+                'required'
+            ],
         ];
     }
 }
