@@ -121,5 +121,8 @@ class ArticleTest extends TestCase
             ->assertRedirect('/admin/articles');
 
         $this->assertNull(Article::query()->find($this->article->id));
+
+        $trashed = Article::query()->withTrashed()->find($this->article->id);
+        $this->assertEquals(1, $trashed->categories()->count());
     }
 }
