@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Article extends Model
 {
+    use SoftDeletes;
+
     const PUBLISHED = 'published';
     const DRAFT = 'draft';
     const PUBLISHED_ALIAS = 'Published';

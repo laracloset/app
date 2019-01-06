@@ -175,7 +175,6 @@ class ArticleController extends Controller
 
         try {
 
-            $article->categories()->sync([]);
             $article->delete();
 
         } catch (\Exception $e) {

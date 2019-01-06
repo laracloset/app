@@ -27,4 +27,15 @@ class ArticleTest extends TestCase
         $this->assertEquals(2, $article->categories()->count());
         $this->assertInstanceOf(Category::class, $article->categories()->first());
     }
+
+    /**
+     * @return void
+     */
+    public function testSoftDelete()
+    {
+        $article = factory(Article::class)->create();
+        $article->delete();
+
+        $this->assertTrue($article->trashed());
+    }
 }
