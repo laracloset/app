@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Asset;
 use Illuminate\Http\Request;
 
 class AssetController extends Controller
@@ -13,7 +14,11 @@ class AssetController extends Controller
      */
     public function index()
     {
-        //
+        $assets = Asset::query()
+            ->orderBy('id', 'DESC')
+            ->paginate();
+
+        return view('admin.asset.index', compact('assets'));
     }
 
     /**
@@ -23,24 +28,44 @@ class AssetController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.asset.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
-        //
+        $file = $request->file('file');
+        $path = $file->store('assets');
+
+        if (!$path) {
+            // TODO
+        }
+
+        $asset = new Asset([
+            'model' => 'Asset',
+            'name' => $file->getClientOriginalName(),
+            'size' => $file->getSize(),
+            'type' => $file->getMimeType(),
+            'path' => $path
+        ]);
+
+        if ($asset->save()) {
+            flash('The asset has been saved.')->success();
+            return redirect('/admin/assets');
+        } else {
+            flash('The asset could not be saved. Please try again.')->error();
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -51,7 +76,7 @@ class AssetController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -62,8 +87,8 @@ class AssetController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -74,7 +99,7 @@ class AssetController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

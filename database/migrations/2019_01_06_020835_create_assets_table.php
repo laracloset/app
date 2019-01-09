@@ -15,13 +15,12 @@ class CreateAssetsTable extends Migration
     {
         Schema::create('assets', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('model');
-            $table->integer('foreign_key');
+            $table->string('model')->nullable();
+            $table->integer('foreign_key')->nullable();
             $table->string('name');
             $table->string('type');
             $table->integer('size');
-            $table->integer('height')->nullable();
-            $table->integer('width')->nullable();
+            $table->string('path');
             $table->timestamps();
             $table->index(['model', 'foreign_key']);
         });
