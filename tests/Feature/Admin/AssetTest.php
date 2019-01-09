@@ -42,6 +42,15 @@ class AssetTest extends TestCase
     /**
      * @return void
      */
+    public function testDestroyWithMissingAsset()
+    {
+        $this->delete('/admin/assets/0')
+            ->assertNotFound();
+    }
+
+    /**
+     * @return void
+     */
     public function testDestroy()
     {
         Storage::fake();

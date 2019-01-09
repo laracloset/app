@@ -106,7 +106,7 @@ class AssetController extends Controller
      */
     public function destroy($id)
     {
-        $asset = Asset::query()->find($id);
+        $asset = Asset::query()->findOrFail($id);
 
         DB::beginTransaction();
 
