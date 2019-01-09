@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Asset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class AssetController extends Controller
 {
@@ -100,10 +102,33 @@ class AssetController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy($id)
     {
-        //
+        $asset = Asset::query()->find($id);
+
+        DB::beginTransaction();
+
+        try {
+
+            $deleted = $asset->delete() && Storage::disk()->delete($asset->path);
+
+            if (!$deleted) {
+                throw new \Exception();
+            }
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            flash('The asset could not be deleted.')->error();
+
+            return back();
+        }
+
+        DB::commit();
+        flash('The asset has been deleted.')->success();
+
+        return redirect('/admin/assets');
     }
 }

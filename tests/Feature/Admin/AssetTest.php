@@ -38,4 +38,22 @@ class AssetTest extends TestCase
         $this->assertEquals($file->getSize(), $asset->size);
         $this->assertEquals('assets/' . $file->hashName(), $asset->path);
     }
+
+    /**
+     * @return void
+     */
+    public function testDestroy()
+    {
+        Storage::fake();
+
+        $asset = factory(Asset::class)->create();
+
+        $this->delete('/admin/assets/' . $asset->id)
+            ->assertRedirect('/admin/assets');
+
+        $this->assertNull(Asset::query()->find($asset->id));
+
+        // Assert the file was deleted...
+        Storage::disk()->assertMissing($asset->path);
+    }
 }
