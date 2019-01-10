@@ -129,8 +129,8 @@ class ArticleTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($article) {
             $browser->visit('/admin/articles')
-                ->assertTitleContains('View Article')
                 ->clickLink('View')
+                ->assertTitleContains('View Article')
                 ->assertPathIs('/admin/articles/' . $article->id)
                 ->assertSee($article->id)
                 ->assertSee($article->title)
