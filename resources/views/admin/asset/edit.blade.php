@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Assets')
+@section('title', 'Edit Asset')
 
 @section('content')
     <div class="card">
