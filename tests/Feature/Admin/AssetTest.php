@@ -65,4 +65,27 @@ class AssetTest extends TestCase
         // Assert the file was deleted...
         Storage::disk()->assertMissing($asset->path);
     }
+
+    /**
+     * @return void
+     */
+    public function testDownloadWithMissingAsset()
+    {
+        $this->get('/admin/assets/0/download/')
+            ->assertNotFound();
+    }
+
+    /**
+     * @return void
+     */
+    public function testDownload()
+    {
+        Storage::fake();
+
+        $asset = factory(Asset::class)->create();
+
+        $this->get('/admin/assets/' . $asset->id . '/download')
+            ->assertHeader('Content-Type', $asset->type)
+            ->assertOk();
+    }
 }

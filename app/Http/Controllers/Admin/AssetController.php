@@ -131,4 +131,15 @@ class AssetController extends Controller
 
         return redirect('/admin/assets');
     }
+
+    /**
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function download($id)
+    {
+        $asset = Asset::query()->findOrFail($id);
+
+        return Storage::disk()->download($asset->path);
+    }
 }
