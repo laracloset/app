@@ -28,7 +28,8 @@ class AssetTest extends DuskTestCase
                 ->attach('file', dirname(__DIR__) . '/avatar.jpeg')
                 ->click('@upload')
                 ->assertPathIs('/admin/assets')
-                ->assertSee('The asset has been saved.');
+                ->assertSee('The asset has been saved.')
+                ->assertPresent('img[src*="download"]');
         });
     }
 
