@@ -64,6 +64,26 @@ class AssetTest extends DuskTestCase
      * @return void
      * @throws \Throwable
      */
+    public function testView()
+    {
+        $asset = factory(Asset::class)->create();
+
+        $this->browse(function (Browser $browser) use ($asset) {
+            $browser->visit('/admin/assets')
+                ->clickLink('View')
+                ->assertPathIs('/admin/assets/' . $asset->id)
+                ->assertSee($asset->id)
+                ->assertSee($asset->name)
+                ->assertSee($asset->type)
+                ->assertSee($asset->size)
+                ->assertPresent('img[src*="download"]');
+        });
+    }
+
+    /**
+     * @return void
+     * @throws \Throwable
+     */
     public function testUpdateAsset()
     {
         $asset = factory(Asset::class)->create();

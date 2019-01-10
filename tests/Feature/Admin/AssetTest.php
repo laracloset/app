@@ -15,6 +15,24 @@ class AssetTest extends TestCase
     /**
      * @return void
      */
+    public function testIndex()
+    {
+        $this->get('/admin/assets')
+            ->assertOk();
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreate()
+    {
+        $this->get('/admin/assets/create')
+            ->assertOk();
+    }
+
+    /**
+     * @return void
+     */
     public function testAvatarUpload()
     {
         Storage::fake();
@@ -37,6 +55,28 @@ class AssetTest extends TestCase
         $this->assertEquals($file->getMimeType(), $asset->type);
         $this->assertEquals($file->getSize(), $asset->size);
         $this->assertEquals('assets/' . $file->hashName(), $asset->path);
+    }
+
+    /**
+     * @return void
+     */
+    public function testShow()
+    {
+        Storage::fake();
+
+        $asset = factory(Asset::class)->create();
+
+        $this->get('/admin/assets/' . $asset->id)
+            ->assertOk();
+    }
+
+    /**
+     * @return void
+     */
+    public function testShowWithMissing()
+    {
+        $this->get('/admin/assets/0')
+            ->assertNotFound();
     }
 
     /**
