@@ -24,6 +24,7 @@ class CategoryTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($category) {
 
             $browser->visit('/admin/categories')
+                ->assertTitle('Categories')
                 ->assertSee($category->id)
                 ->assertSee($category->name)
                 ->assertSee($category->created_at);
@@ -57,6 +58,7 @@ class CategoryTest extends DuskTestCase
 
             $browser->visit('/admin/categories')
                 ->clickLink('Create Category')
+                ->assertTitle('Create Category')
                 ->assertInputValue('name', '')
                 ->assertInputValue('slug', '')
                 ->assertSelected('parent_id', '')
@@ -107,6 +109,7 @@ class CategoryTest extends DuskTestCase
             $newTitle = Lorem::word();
 
             $browser->visit('/admin/categories/' . $category->id . '/edit')
+                ->assertTitle('Edit Category')
                 ->assertInputValue('name', $category->name)
                 ->assertInputValue('slug', $category->slug)
                 ->assertSelected('parent_id', $category->parent_id)
@@ -131,6 +134,7 @@ class CategoryTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($category) {
             $browser->visit('/admin/categories/' . $category->id)
+                ->assertTitle('View Category')
                 ->assertSee($category->id)
                 ->assertSee($category->name)
                 ->assertSee($category->slug)
