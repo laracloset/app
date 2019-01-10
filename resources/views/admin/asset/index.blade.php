@@ -21,7 +21,7 @@
                 @foreach($assets as $asset)
                     <tr>
                         <td>{{ $asset->id }}</td>
-                        <td><img src="{{ action('Admin\AssetController@download', $asset->id) }}" width="150"></td>
+                        <td><img src="{{ route('assets.download', $asset->id) }}" width="150"></td>
                         <td>{{ $asset->name }}</td>
                         <td>{{ $asset->created_at }}</td>
                         <td>
