@@ -17,6 +17,7 @@ class AssetController extends Controller
     public function index()
     {
         $assets = Asset::query()
+            ->where('model', 'Asset')
             ->orderBy('id', 'DESC')
             ->paginate();
 

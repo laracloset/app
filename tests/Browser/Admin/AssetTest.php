@@ -4,16 +4,29 @@ namespace Tests\Browser\Admin;
 
 
 use App\Asset;
-use Faker\Provider\File;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
 class AssetTest extends DuskTestCase
 {
     use DatabaseMigrations;
+
+    /**
+     * @return void
+     * @throws \Throwable
+     */
+    public function testIndexWithOtherModel()
+    {
+        factory(Asset::class)->create([
+            'model' => 'Foo'
+        ]);
+
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/admin/assets')
+                ->assertMissing('img[src*="download"]');
+        });
+    }
 
     /**
      * @return void
