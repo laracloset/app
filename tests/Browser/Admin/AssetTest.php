@@ -38,7 +38,7 @@ class AssetTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) {
             $browser->visit('/admin/assets')
-                ->assertTitle('Assets')
+                ->assertTitleContains('Assets')
                 ->assertSeeLink('2');
         });
     }
@@ -53,7 +53,7 @@ class AssetTest extends DuskTestCase
             $browser->visit('/admin/assets')
                 ->clickLink('Create Asset')
                 ->assertPathIs('/admin/assets/create')
-                ->assertTitle('Create Asset')
+                ->assertTitleContains('Create Asset')
                 ->attach('file', dirname(__DIR__) . '/avatar.jpeg')
                 ->click('@upload')
                 ->assertPathIs('/admin/assets')
@@ -74,7 +74,7 @@ class AssetTest extends DuskTestCase
             $browser->visit('/admin/assets')
                 ->clickLink('View')
                 ->assertPathIs('/admin/assets/' . $asset->id)
-                ->assertTitle('View Asset')
+                ->assertTitleContains('View Asset')
                 ->assertSee($asset->id)
                 ->assertSee($asset->name)
                 ->assertSee($asset->type)
@@ -94,7 +94,7 @@ class AssetTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($asset) {
             $browser->visit('/admin/assets')
                 ->clickLink('Edit')
-                ->assertTitle('Edit Asset')
+                ->assertTitleContains('Edit Asset')
                 ->assertPathIs('/admin/assets/' . $asset->id . '/edit')
                 ->attach('file', dirname(__DIR__) . '/avatar.jpeg')
                 ->click('@upload')
