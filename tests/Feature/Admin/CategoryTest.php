@@ -94,7 +94,7 @@ class CategoryTest extends TestCase
     {
         $category = factory(Category::class)->create();
 
-        $this->get('/admin/categories/' . $category->id)
+        $this->get('/admin/categories/' . $category->id . '/edit')
             ->assertOk();
     }
 

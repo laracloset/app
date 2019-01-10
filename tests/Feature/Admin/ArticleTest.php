@@ -92,7 +92,7 @@ class ArticleTest extends TestCase
      */
     public function testEdit()
     {
-        $this->get('/admin/articles/' . $this->article->id)
+        $this->get('/admin/articles/' . $this->article->id . '/edit')
             ->assertOk();
     }
 
