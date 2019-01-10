@@ -25,8 +25,9 @@
                         <td>{{ $asset->name }}</td>
                         <td>{{ $asset->created_at }}</td>
                         <td>
-                            <a class="btn btn-primary"
-                               href="{{ route('assets.edit', $asset->id) }}"
+                            <a class="btn btn-primary" href="{{ route('assets.show', $asset->id) }}"
+                               role="button">View</a>
+                            <a class="btn btn-primary" href="{{ route('assets.edit', $asset->id) }}"
                                role="button">Edit</a>
                             <form action="{{ route('assets.destroy', $asset->id)}}" method="post"
                                   class="d-inline">

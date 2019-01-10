@@ -60,6 +60,28 @@ class AssetTest extends TestCase
     /**
      * @return void
      */
+    public function testShow()
+    {
+        Storage::fake();
+
+        $asset = factory(Asset::class)->create();
+
+        $this->get('/admin/assets/' . $asset->id)
+            ->assertOk();
+    }
+
+    /**
+     * @return void
+     */
+    public function testShowWithMissing()
+    {
+        $this->get('/admin/assets/0')
+            ->assertNotFound();
+    }
+
+    /**
+     * @return void
+     */
     public function testEdit()
     {
         Storage::fake();

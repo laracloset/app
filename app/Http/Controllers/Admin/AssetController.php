@@ -74,7 +74,9 @@ class AssetController extends Controller
      */
     public function show($id)
     {
-        //
+        $asset = Asset::query()->findOrFail($id);
+
+        return view('admin.asset.show', compact('asset'));
     }
 
     /**
