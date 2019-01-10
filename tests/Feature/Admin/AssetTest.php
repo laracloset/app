@@ -42,6 +42,62 @@ class AssetTest extends TestCase
     /**
      * @return void
      */
+    public function testEdit()
+    {
+        Storage::fake();
+
+        $asset = factory(Asset::class)->create();
+
+        $this->get('/admin/assets/' . $asset->id . '/edit')
+            ->assertOk();
+    }
+
+    /**
+     * @return void
+     */
+    public function testEditWithMissing()
+    {
+        $this->get('/admin/assets/0/edit')
+            ->assertNotFound();
+    }
+
+    /**
+     * @return void
+     */
+    public function testUpdateWithMissing()
+    {
+        $this->put('/admin/assets/0')
+            ->assertNotFound();
+    }
+
+    /**
+     * @return void
+     */
+    public function testUpdate()
+    {
+        Storage::fake();
+
+        $asset = factory(Asset::class)->create();
+
+        $file = UploadedFile::fake()->image('logo.png');
+
+        $this->put('/admin/assets/' . $asset->id, [
+            'file' => $file
+        ]);
+
+        $updated = Asset::query()->find($asset->id);
+
+        $this->assertEquals('Asset', $updated->model);
+        $this->assertEquals(null, $updated->foeign_key);
+        $this->assertEquals('logo.png', $updated->name);
+        $this->assertEquals($file->getMimeType(), $updated->type);
+        $this->assertEquals($file->getSize(), $updated->size);
+        $this->assertEquals('assets/' . $file->hashName(), $updated->path);
+    }
+
+    /**
+     * @return void
+     */
     public function testDestroyWithMissingAsset()
     {
         $this->delete('/admin/assets/0')

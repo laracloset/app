@@ -46,7 +46,7 @@ class AssetController extends Controller
         $path = $file->store('assets');
 
         if (!$path) {
-            // TODO
+            abort(500);
         }
 
         $asset = new Asset([
@@ -59,10 +59,11 @@ class AssetController extends Controller
 
         if ($asset->save()) {
             flash('The asset has been saved.')->success();
-            return redirect('/admin/assets');
         } else {
-            flash('The asset could not be saved. Please try again.')->error();
+            abort(500);
         }
+
+        return redirect('/admin/assets');
     }
 
     /**
@@ -84,7 +85,9 @@ class AssetController extends Controller
      */
     public function edit($id)
     {
-        //
+        $asset = Asset::query()->findOrFail($id);
+
+        return view('admin.asset.edit', compact('asset'));
     }
 
     /**
@@ -96,7 +99,29 @@ class AssetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $asset = Asset::query()->findOrFail($id);
+
+        $file = $request->file('file');
+        $path = $file->store('assets');
+
+        if (!$path) {
+            abort(500);
+        }
+
+        // We wonder if we should delete the old file or not...
+
+        $asset->name = $file->getClientOriginalName();
+        $asset->size = $file->getSize();
+        $asset->type = $file->getMimeType();
+        $asset->path = $path;
+
+        if ($asset->save()) {
+            flash('The asset has been saved.')->success();
+        } else {
+            abort(500);
+        }
+
+        return redirect('/admin/assets');
     }
 
     /**

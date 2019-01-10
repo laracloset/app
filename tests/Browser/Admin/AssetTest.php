@@ -32,12 +32,46 @@ class AssetTest extends DuskTestCase
      * @return void
      * @throws \Throwable
      */
+    public function testIndexWithPaginator()
+    {
+        factory(Asset::class, 20)->create();
+
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/admin/assets')
+                ->assertSeeLink('2');
+        });
+    }
+
+    /**
+     * @return void
+     * @throws \Throwable
+     */
     public function testUploadAsset()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/admin/assets')
                 ->clickLink('Create Asset')
                 ->assertPathIs('/admin/assets/create')
+                ->attach('file', dirname(__DIR__) . '/avatar.jpeg')
+                ->click('@upload')
+                ->assertPathIs('/admin/assets')
+                ->assertSee('The asset has been saved.')
+                ->assertPresent('img[src*="download"]');
+        });
+    }
+
+    /**
+     * @return void
+     * @throws \Throwable
+     */
+    public function testUpdateAsset()
+    {
+        $asset = factory(Asset::class)->create();
+
+        $this->browse(function (Browser $browser) use ($asset) {
+            $browser->visit('/admin/assets')
+                ->clickLink('Edit')
+                ->assertPathIs('/admin/assets/' . $asset->id . '/edit')
                 ->attach('file', dirname(__DIR__) . '/avatar.jpeg')
                 ->click('@upload')
                 ->assertPathIs('/admin/assets')
