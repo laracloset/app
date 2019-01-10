@@ -15,6 +15,24 @@ class AssetTest extends TestCase
     /**
      * @return void
      */
+    public function testIndex()
+    {
+        $this->get('/admin/assets')
+            ->assertOk();
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreate()
+    {
+        $this->get('/admin/assets/create')
+            ->assertOk();
+    }
+
+    /**
+     * @return void
+     */
     public function testAvatarUpload()
     {
         Storage::fake();
