@@ -81,10 +81,28 @@ class ArticleTest extends TestCase
     /**
      * @return void
      */
+    public function testShowWithMissing()
+    {
+        $this->get('/admin/articles/0')
+            ->assertNotFound();
+    }
+
+    /**
+     * @return void
+     */
     public function testEdit()
     {
-        $this->get('/admin/articles/' . $this->article->id)
+        $this->get('/admin/articles/' . $this->article->id . '/edit')
             ->assertOk();
+    }
+
+    /**
+     * @return void
+     */
+    public function testEditWithMissing()
+    {
+        $this->get('/admin/articles/0/edit')
+            ->assertNotFound();
     }
 
     /**
@@ -115,6 +133,22 @@ class ArticleTest extends TestCase
     /**
      * @return void
      */
+    public function testUpdateWithMissing()
+    {
+        $new = factory(Article::class)->make();
+
+        $this->put('/admin/articles/0', [
+            'title' => $new->title,
+            'slug' => $new->slug,
+            'body' => $new->body,
+            'state' => $new->state
+        ])
+            ->assertNotFound();
+    }
+
+    /**
+     * @return void
+     */
     public function testDestroy()
     {
         $this->delete('/admin/articles/' . $this->article->id)
@@ -124,5 +158,14 @@ class ArticleTest extends TestCase
 
         $trashed = Article::query()->withTrashed()->find($this->article->id);
         $this->assertEquals(1, $trashed->categories()->count());
+    }
+
+    /**
+     * @return void
+     */
+    public function testDeleteWithMissing()
+    {
+        $this->delete('/admin/articles/0')
+            ->assertNotFound();
     }
 }

@@ -91,7 +91,7 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article = Article::query()->find($id);
+        $article = Article::query()->findOrFail($id);
 
         return view('admin.article.show', compact('article'));
     }
@@ -104,7 +104,7 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        $article = Article::query()->find($id);
+        $article = Article::query()->findOrFail($id);
         $categoryIds = $article->categories->map(function ($item, $key) {
             return $item->id;
         })->all();
@@ -134,7 +134,7 @@ class ArticleController extends Controller
      */
     public function update(StoreArticle $request, $id)
     {
-        $article = Article::query()->find($id);
+        $article = Article::query()->findOrFail($id);
 
         DB::beginTransaction();
 
@@ -169,7 +169,7 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        $article = Article::query()->find($id);
+        $article = Article::query()->findOrFail($id);
 
         DB::beginTransaction();
 

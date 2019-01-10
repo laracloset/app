@@ -81,12 +81,30 @@ class CategoryTest extends TestCase
     /**
      * @return void
      */
+    public function testShowWithMissing()
+    {
+        $this->get('/admin/categories/0')
+            ->assertNotFound();
+    }
+
+    /**
+     * @return void
+     */
     public function testEdit()
     {
         $category = factory(Category::class)->create();
 
-        $this->get('/admin/categories/' . $category->id)
+        $this->get('/admin/categories/' . $category->id . '/edit')
             ->assertOk();
+    }
+
+    /**
+     * @return void
+     */
+    public function testEditWithMissing()
+    {
+        $this->get('/admin/categories/0/edit')
+            ->assertNotFound();
     }
 
     /**
@@ -114,6 +132,21 @@ class CategoryTest extends TestCase
     /**
      * @return void
      */
+    public function testUpdateWithMissing()
+    {
+        $new = factory(Category::class)->make();
+
+        $this->put('/admin/categories/0', [
+            'name' => $new->name,
+            'slug' => $new->slug,
+            'parent_id' => $new->parent_id,
+        ])
+            ->assertNotFound();
+    }
+
+    /**
+     * @return void
+     */
     public function testDestroy()
     {
         $category = factory(Category::class)->create();
@@ -122,6 +155,15 @@ class CategoryTest extends TestCase
             ->assertRedirect('/admin/categories');
 
         $this->assertNull(Category::query()->find($category->id));
+    }
+
+    /**
+     * @return void
+     */
+    public function testDestroyWithMissing()
+    {
+        $this->delete('/admin/categories/0')
+            ->assertNotFound();
     }
 
     /**
@@ -144,6 +186,15 @@ class CategoryTest extends TestCase
     /**
      * @return void
      */
+    public function testMoveDownWithMissing()
+    {
+        $this->put('/admin/categories/0/move_down')
+            ->assertNotFound();
+    }
+
+    /**
+     * @return void
+     */
     public function testMoveUp()
     {
         list($node1, $node2) = factory(Category::class, 2)->create();
@@ -156,5 +207,14 @@ class CategoryTest extends TestCase
             ->first();
 
         $this->assertEquals($node1->id, $bottom->id);
+    }
+
+    /**
+     * @return void
+     */
+    public function testMoveUpWithMissing()
+    {
+        $this->put('/admin/categories/0/move_up')
+            ->assertNotFound();
     }
 }

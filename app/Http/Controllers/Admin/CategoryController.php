@@ -62,7 +62,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::query()->find($id);
+        $category = Category::query()->findOrFail($id);
 
         return view('admin.category.show', compact('category'));
     }
@@ -77,7 +77,7 @@ class CategoryController extends Controller
     {
         $categories = Category::all();
 
-        $category = Category::query()->find($id);
+        $category = Category::query()->findOrFail($id);
 
         return view('admin.category.edit', compact('categories', 'category'));
     }
@@ -91,7 +91,7 @@ class CategoryController extends Controller
      */
     public function update(StoreCategory $request, $id)
     {
-        $category = Category::query()->find($id);
+        $category = Category::query()->findOrFail($id);
 
         $category->name = $request->get('name');
         $category->slug = $request->get('slug');
@@ -111,7 +111,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::query()->find($id);
+        $category = Category::query()->findOrFail($id);
         $category->delete();
 
         flash('The category has been deleted.')->success();
@@ -125,7 +125,7 @@ class CategoryController extends Controller
      */
     public function moveDown($id)
     {
-        $category = Category::query()->find($id);
+        $category = Category::query()->findOrFail($id);
         if ($category->down()) {
             flash('Move down successfully.')->success();
         } else {
@@ -141,7 +141,7 @@ class CategoryController extends Controller
      */
     public function moveUp($id)
     {
-        $category = Category::query()->find($id);
+        $category = Category::query()->findOrFail($id);
         if ($category->up()) {
             flash('Move up successfully.')->success();
         } else {
