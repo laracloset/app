@@ -25,6 +25,7 @@ class ArticleTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($article) {
 
             $browser->visit('/admin/articles')
+                ->assertTitleContains('Articles')
                 ->assertSee($article->id)
                 ->assertSee($article->title)
                 ->assertSee($article->created_at);
@@ -71,6 +72,7 @@ class ArticleTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($article) {
             $browser->visit('/admin/articles')
                 ->clickLink('Create Article')
+                ->assertTitleContains('Create Article')
                 ->assertInputValue('title', '')
                 ->assertInputValue('slug', '')
                 ->assertInputValue('body', '')
@@ -103,6 +105,7 @@ class ArticleTest extends DuskTestCase
 
             $browser->visit('/admin/articles')
                 ->clickLink('Edit')
+                ->assertTitleContains('Edit Article')
                 ->assertInputValue('title', $article->title)
                 ->assertInputValue('slug', $article->slug)
                 ->assertInputValue('body', $article->body)
@@ -127,6 +130,7 @@ class ArticleTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($article) {
             $browser->visit('/admin/articles')
                 ->clickLink('View')
+                ->assertTitleContains('View Article')
                 ->assertPathIs('/admin/articles/' . $article->id)
                 ->assertSee($article->id)
                 ->assertSee($article->title)
