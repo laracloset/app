@@ -32,6 +32,20 @@ class AssetTest extends DuskTestCase
      * @return void
      * @throws \Throwable
      */
+    public function testIndexWithPaginator()
+    {
+        factory(Asset::class, 20)->create();
+
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/admin/assets')
+                ->assertSeeLink('2');
+        });
+    }
+
+    /**
+     * @return void
+     * @throws \Throwable
+     */
     public function testUploadAsset()
     {
         $this->browse(function (Browser $browser) {
