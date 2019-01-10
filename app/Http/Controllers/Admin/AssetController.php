@@ -46,7 +46,7 @@ class AssetController extends Controller
         $path = $file->store('assets');
 
         if (!$path) {
-            // TODO
+            abort(500);
         }
 
         $asset = new Asset([
@@ -59,10 +59,11 @@ class AssetController extends Controller
 
         if ($asset->save()) {
             flash('The asset has been saved.')->success();
-            return redirect('/admin/assets');
         } else {
-            flash('The asset could not be saved. Please try again.')->error();
+            abort(500);
         }
+
+        return redirect('/admin/assets');
     }
 
     /**
