@@ -152,7 +152,7 @@ class ArticleTest extends TestCase
     public function testDestroy()
     {
         $this->delete('/admin/articles/' . $this->article->id)
-            ->assertRedirect('/admin/articles');
+            ->assertRedirect();
 
         $this->assertNull(Article::query()->find($this->article->id));
 
