@@ -116,7 +116,7 @@ class CategoryController extends Controller
 
         flash('The category has been deleted.')->success();
 
-        return redirect('/admin/categories');
+        return back();
     }
 
     /**
@@ -132,7 +132,7 @@ class CategoryController extends Controller
             flash('Could not move down.')->error();
         }
 
-        return redirect('/admin/categories');
+        return back();
     }
 
     /**
@@ -148,6 +148,6 @@ class CategoryController extends Controller
             flash('Could not move up.')->error();
         }
 
-        return redirect('/admin/categories');
+        return back();
     }
 }
