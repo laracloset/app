@@ -66,6 +66,34 @@ class AssetTest extends DuskTestCase
      * @return void
      * @throws \Throwable
      */
+    public function testUpload0Bytes()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/admin/assets/create')
+                ->attach('file', dirname(__DIR__) . '/0bytes.txt')
+                ->click('@upload')
+                ->assertSee('The asset has been saved.');
+        });
+    }
+
+    /**
+     * @return void
+     * @throws \Throwable
+     */
+    public function testUploadNoAsset()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/admin/assets/create')
+                ->click('@upload')
+                ->assertPathIs('/admin/assets/create')
+                ->assertSee('The file field is required.');
+        });
+    }
+
+    /**
+     * @return void
+     * @throws \Throwable
+     */
     public function testView()
     {
         $asset = factory(Asset::class)->create();

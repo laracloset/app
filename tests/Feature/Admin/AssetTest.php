@@ -106,7 +106,13 @@ class AssetTest extends TestCase
      */
     public function testUpdateWithMissing()
     {
-        $this->put('/admin/assets/0')
+        Storage::fake();
+
+        $file = UploadedFile::fake()->image('avatar.jpg');
+
+        $this->put('/admin/assets/0', [
+            'file' => $file
+        ])
             ->assertNotFound();
     }
 
