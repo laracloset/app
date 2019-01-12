@@ -154,7 +154,7 @@ class AssetTest extends TestCase
         $asset = factory(Asset::class)->create();
 
         $this->delete('/admin/assets/' . $asset->id)
-            ->assertRedirect('/admin/assets');
+            ->assertRedirect();
 
         $this->assertNull(Asset::query()->find($asset->id));
 

@@ -157,7 +157,7 @@ class AssetController extends Controller
         DB::commit();
         flash('The asset has been deleted.')->success();
 
-        return redirect('/admin/assets');
+        return back();
     }
 
     /**

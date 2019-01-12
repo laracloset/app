@@ -152,7 +152,7 @@ class CategoryTest extends TestCase
         $category = factory(Category::class)->create();
 
         $this->delete('/admin/categories/' . $category->id)
-            ->assertRedirect('/admin/categories');
+            ->assertRedirect();
 
         $this->assertNull(Category::query()->find($category->id));
     }
@@ -174,7 +174,7 @@ class CategoryTest extends TestCase
         list($node1, $node2) = factory(Category::class, 2)->create();
 
         $this->put('/admin/categories/' . $node1->id . '/move_down')
-            ->assertRedirect('/admin/categories');
+            ->assertRedirect();
 
         $top = Category::query()
             ->orderBy('_lft', 'asc')
@@ -200,7 +200,7 @@ class CategoryTest extends TestCase
         list($node1, $node2) = factory(Category::class, 2)->create();
 
         $this->put('/admin/categories/' . $node2->id . '/move_up')
-            ->assertRedirect('/admin/categories');
+            ->assertRedirect();
 
         $bottom = Category::query()
             ->orderBy('_lft', 'desc')

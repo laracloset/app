@@ -188,6 +188,6 @@ class ArticleController extends Controller
         DB::commit();
         flash('The article has been deleted.')->success();
 
-        return redirect('/admin/articles');
+        return back();
     }
 }
