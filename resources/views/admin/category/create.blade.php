@@ -12,26 +12,20 @@
             @csrf
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" name="name" value="{{ old('name') }}"/>
+                {!! Form::text('name', null, ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
                 <label for="slug">Slug</label>
-                <input type="text" class="form-control" name="slug" value="{{ old('slug') }}"/>
+                {!! Form::text('slug', null, ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
                 <label for="parent_id">Parent</label>
-                <select class="form-control" name="parent_id">
-                    <option value="">Choose...</option>
-                    @foreach($categories as $parent)
-                        @if(old('parent_id') == $parent->id)
-                            <option value="{{ $parent->id }}" selected>{{ $parent->name }}</option>
-                        @else
-                            <option value="{{ $parent->id }}">{{ $parent->name }}</option>
-                        @endif
-                    @endforeach
-                </select>
+                {!! Form::select('parent_id', $categoryCollection->toArray(), null, [
+                    'class' => 'form-control',
+                    'placeholder' => 'Choose...'
+                ]) !!}
             </div>
-            <button type="submit" class="btn btn-primary" dusk="add">Add</button>
+            {!! Form::button('Add', ['class' => 'btn btn-primary', 'dusk' => 'add', 'type' => 'submit']) !!}
             {!! Form::close() !!}
         </div>
     </div>

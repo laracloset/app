@@ -19,4 +19,25 @@ class Category extends Model
         'slug',
         'parent_id'
     ];
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public static function treeList()
+    {
+        $categoryCollection = self::query()
+            ->get()
+            ->toTree();
+
+        $list = [];
+        $traverse = function ($categories, $prefix = '-') use (&$traverse, &$list) {
+            foreach ($categories as $category) {
+                $list[$category->id] = $prefix . $category->name;
+                $traverse($category->children, $prefix . '-');
+            }
+        };
+        $traverse($categoryCollection);
+
+        return collect($list);
+    }
 }
