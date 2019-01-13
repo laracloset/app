@@ -22,30 +22,30 @@
                         <td>{{ $category->id }}</td>
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->created_at }}</td>
-                        <td>
+                        <td style="white-space: nowrap;">
                             <a class="btn btn-primary" href="{{ route('categories.show', $category->id) }}"
                                role="button">View</a>
                             <a class="btn btn-primary"
                                href="{{ route('categories.edit', $category->id) }}"
                                role="button">Edit</a>
-                            <form action="{{ route('categories.move_up', $category->id)}}" method="post"
-                                  class="d-inline">
-                                @csrf
-                                @method('PUT')
-                                <button class="btn btn-primary" type="submit" dusk="move_up_{{ $category->id }}">Move Up</button>
-                            </form>
-                            <form action="{{ route('categories.move_down', $category->id)}}" method="post"
-                                  class="d-inline">
-                                @csrf
-                                @method('PUT')
-                                <button class="btn btn-primary" type="submit" dusk="move_down_{{ $category->id }}">Move Down</button>
-                            </form>
-                            <form action="{{ route('categories.destroy', $category->id)}}" method="post"
-                                  class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger" type="submit" dusk="delete">Delete</button>
-                            </form>
+                            {!! Form::open(['route' => ['categories.move_up', $category->id], 'class' => 'd-inline']) !!}
+                            @csrf
+                            @method('PATCH')
+                            <button class="btn btn-primary" type="submit" dusk="move_up_{{ $category->id }}">Move Up
+                            </button>
+                            {!! Form::close() !!}
+                            {!! Form::open(['route' => ['categories.move_down', $category->id], 'class' => 'd-inline']) !!}
+                            @csrf
+                            @method('PATCH')
+                            <button class="btn btn-primary" type="submit" dusk="move_down_{{ $category->id }}">Move
+                                Down
+                            </button>
+                            {!! Form::close() !!}
+                            {!! Form::open(['route' => ['categories.destroy', $category->id], 'class' => 'd-inline']) !!}
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger" type="submit" dusk="delete">Delete</button>
+                            {!! Form::close() !!}
                         </td>
                     </tr>
                 @endforeach
