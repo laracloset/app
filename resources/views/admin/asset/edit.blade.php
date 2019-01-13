@@ -8,14 +8,12 @@
             Edit Asset
         </div>
         <div class="card-body">
-            {!! Form::open(['route' => ['assets.update', $asset->id], 'enctype' => 'multipart/form-data']) !!}
-            @method('PATCH')
-            @csrf
+            {!! Form::open(['route' => ['assets.update', $asset->id], 'enctype' => 'multipart/form-data' , 'method' => 'PATCH']) !!}
             <div class="form-group">
                 <label for="title">File</label>
-                <input type="file" class="form-control" name="file"/>
+                {!! Form::file('file', ['class' => 'form-control']) !!}
             </div>
-            <button type="submit" class="btn btn-primary" dusk="upload">Upload</button>
+            {!! Form::button('Upload', ['class' => 'btn btn-primary', 'dusk' => 'upload', 'type' => 'submit']) !!}
             {!! Form::close() !!}
         </div>
     </div>

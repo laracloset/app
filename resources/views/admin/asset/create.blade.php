@@ -9,12 +9,11 @@
         </div>
         <div class="card-body">
             {!! Form::open(['route' => 'assets.store', 'enctype' => 'multipart/form-data']) !!}
-            @csrf
             <div class="form-group">
                 <label for="name">File</label>
-                <input type="file" class="form-control" name="file"/>
+                {!! Form::file('file', ['class' => 'form-control']) !!}
             </div>
-            <button type="submit" class="btn btn-primary" dusk="upload">Upload</button>
+            {!! Form::button('Upload', ['class' => 'btn btn-primary', 'dusk' => 'upload', 'type' => 'submit']) !!}
             {!! Form::close() !!}
         </div>
     </div>
