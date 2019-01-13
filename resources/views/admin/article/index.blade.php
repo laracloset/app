@@ -28,10 +28,8 @@
                             <a class="btn btn-primary"
                                href="{{ route('articles.edit', $article->id) }}"
                                role="button">Edit</a>
-                            {!! Form::open(['route' => ['articles.destroy', $article->id], 'class' => 'd-inline']) !!}
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger" type="submit" dusk="delete">Delete</button>
+                            {!! Form::open(['route' => ['articles.destroy', $article->id], 'class' => 'd-inline', 'method' => 'DELETE']) !!}
+                            {!! Form::button('Delete', ['class' => 'btn btn-danger', 'dusk' => 'delete', 'type' => 'submit']) !!}
                             {!! Form::close() !!}
                         </td>
                     </tr>

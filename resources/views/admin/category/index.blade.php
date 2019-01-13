@@ -41,10 +41,8 @@
                                 Down
                             </button>
                             {!! Form::close() !!}
-                            {!! Form::open(['route' => ['categories.destroy', $category->id], 'class' => 'd-inline']) !!}
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger" type="submit" dusk="delete">Delete</button>
+                            {!! Form::open(['route' => ['categories.destroy', $category->id], 'class' => 'd-inline', 'method' => 'DELETE']) !!}
+                            {!! Form::button('Delete', ['class' => 'btn btn-danger', 'dusk' => 'delete', 'type' => 'submit']) !!}
                             {!! Form::close() !!}
                         </td>
                     </tr>
