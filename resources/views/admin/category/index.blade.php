@@ -28,18 +28,11 @@
                             <a class="btn btn-primary"
                                href="{{ route('categories.edit', $category->id) }}"
                                role="button">Edit</a>
-                            {!! Form::open(['route' => ['categories.move_up', $category->id], 'class' => 'd-inline']) !!}
-                            @csrf
-                            @method('PUT')
-                            <button class="btn btn-primary" type="submit" dusk="move_up_{{ $category->id }}">Move Up
-                            </button>
+                            {!! Form::open(['route' => ['categories.move_up', $category->id], 'class' => 'd-inline', 'method' => 'PUT']) !!}
+                            {!! Form::button('Delete Up', ['class' => 'btn btn-primary', 'dusk' => 'move_up_' . $category->id, 'type' => 'submit']) !!}
                             {!! Form::close() !!}
-                            {!! Form::open(['route' => ['categories.move_down', $category->id], 'class' => 'd-inline']) !!}
-                            @csrf
-                            @method('PUT')
-                            <button class="btn btn-primary" type="submit" dusk="move_down_{{ $category->id }}">Move
-                                Down
-                            </button>
+                            {!! Form::open(['route' => ['categories.move_down', $category->id], 'class' => 'd-inline', 'method' => 'PUT']) !!}
+                            {!! Form::button('Delete Down', ['class' => 'btn btn-primary', 'dusk' => 'move_down_' . $category->id, 'type' => 'submit']) !!}
                             {!! Form::close() !!}
                             {!! Form::open(['route' => ['categories.destroy', $category->id], 'class' => 'd-inline', 'method' => 'DELETE']) !!}
                             {!! Form::button('Delete', ['class' => 'btn btn-danger', 'dusk' => 'delete', 'type' => 'submit']) !!}
