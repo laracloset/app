@@ -22,18 +22,15 @@
                         <td>{{ $article->id }}</td>
                         <td>{{ $article->title }}</td>
                         <td>{{ $article->created_at }}</td>
-                        <td>
+                        <td style="white-space: nowrap;">
                             <a class="btn btn-primary" href="{{ route('articles.show', $article->id) }}"
                                role="button">View</a>
                             <a class="btn btn-primary"
                                href="{{ route('articles.edit', $article->id) }}"
                                role="button">Edit</a>
-                            <form action="{{ route('articles.destroy', $article->id)}}" method="post"
-                                  class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger" type="submit" dusk="delete">Delete</button>
-                            </form>
+                            {!! Form::open(['route' => ['articles.destroy', $article->id], 'class' => 'd-inline', 'method' => 'DELETE']) !!}
+                            {!! Form::button('Delete', ['class' => 'btn btn-danger', 'dusk' => 'delete', 'type' => 'submit']) !!}
+                            {!! Form::close() !!}
                         </td>
                     </tr>
                 @endforeach

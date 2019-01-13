@@ -173,7 +173,7 @@ class CategoryTest extends TestCase
     {
         list($node1, $node2) = factory(Category::class, 2)->create();
 
-        $this->put('/admin/categories/' . $node1->id . '/move_down')
+        $this->patch('/admin/categories/' . $node1->id . '/move_down')
             ->assertRedirect();
 
         $top = Category::query()
@@ -188,7 +188,7 @@ class CategoryTest extends TestCase
      */
     public function testMoveDownWithMissing()
     {
-        $this->put('/admin/categories/0/move_down')
+        $this->patch('/admin/categories/0/move_down')
             ->assertNotFound();
     }
 
@@ -199,7 +199,7 @@ class CategoryTest extends TestCase
     {
         list($node1, $node2) = factory(Category::class, 2)->create();
 
-        $this->put('/admin/categories/' . $node2->id . '/move_up')
+        $this->patch('/admin/categories/' . $node2->id . '/move_up')
             ->assertRedirect();
 
         $bottom = Category::query()
@@ -214,7 +214,7 @@ class CategoryTest extends TestCase
      */
     public function testMoveUpWithMissing()
     {
-        $this->put('/admin/categories/0/move_up')
+        $this->patch('/admin/categories/0/move_up')
             ->assertNotFound();
     }
 }

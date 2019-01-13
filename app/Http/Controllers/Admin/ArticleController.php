@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Article;
 use App\Category;
 use App\Http\Requests\StoreArticle;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
@@ -31,21 +30,9 @@ class ArticleController extends Controller
      */
     public function create()
     {
+        $categoryCollection = Category::treeList();
 
-        $categoryCollection = Category::query()
-            ->get()
-            ->toTree();
-
-        $list = [];
-        $traverse = function ($categories, $prefix = '-') use (&$traverse, &$list) {
-            foreach ($categories as $category) {
-                $list[$category->id] = $prefix . $category->name;
-                $traverse($category->children, $prefix . '-');
-            }
-        };
-        $traverse($categoryCollection);
-
-        return view('admin.article.create', compact('list'));
+        return view('admin.article.create', compact('categoryCollection'));
     }
 
     /**
@@ -105,24 +92,10 @@ class ArticleController extends Controller
     public function edit($id)
     {
         $article = Article::query()->findOrFail($id);
-        $categoryIds = $article->categories->map(function ($item, $key) {
-            return $item->id;
-        })->all();
 
-        $categoryCollection = Category::query()
-            ->get()
-            ->toTree();
+        $categoryCollection = Category::treeList();
 
-        $list = [];
-        $traverse = function ($categories, $prefix = '-') use (&$traverse, &$list) {
-            foreach ($categories as $category) {
-                $list[$category->id] = $prefix . $category->name;
-                $traverse($category->children, $prefix . '-');
-            }
-        };
-        $traverse($categoryCollection);
-
-        return view('admin.article.edit', compact('article', 'categoryIds', 'list'));
+        return view('admin.article.edit', compact('article', 'categoryIds', 'categoryCollection'));
     }
 
     /**

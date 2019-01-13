@@ -8,31 +8,25 @@
             Add Category
         </div>
         <div class="card-body">
-            <form method="post" action="{{ route('categories.store') }}">
-                @csrf
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" name="name" value="{{ old('name') }}"/>
-                </div>
-                <div class="form-group">
-                    <label for="slug">Slug</label>
-                    <input type="text" class="form-control" name="slug" value="{{ old('slug') }}"/>
-                </div>
-                <div class="form-group">
-                    <label for="parent_id">Parent</label>
-                    <select class="form-control" name="parent_id">
-                        <option value="">Choose...</option>
-                        @foreach($categories as $parent)
-                            @if(old('parent_id') == $parent->id)
-                                <option value="{{ $parent->id }}" selected>{{ $parent->name }}</option>
-                            @else
-                                <option value="{{ $parent->id }}">{{ $parent->name }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary" dusk="add">Add</button>
-            </form>
+            {!! Form::open(['route' => 'categories.store']) !!}
+            @csrf
+            <div class="form-group">
+                <label for="name">Name</label>
+                {!! Form::text('name', null, ['class' => 'form-control']) !!}
+            </div>
+            <div class="form-group">
+                <label for="slug">Slug</label>
+                {!! Form::text('slug', null, ['class' => 'form-control']) !!}
+            </div>
+            <div class="form-group">
+                <label for="parent_id">Parent</label>
+                {!! Form::select('parent_id', $categoryCollection->toArray(), null, [
+                    'class' => 'form-control',
+                    'placeholder' => 'Choose...'
+                ]) !!}
+            </div>
+            {!! Form::button('Add', ['class' => 'btn btn-primary', 'dusk' => 'add', 'type' => 'submit']) !!}
+            {!! Form::close() !!}
         </div>
     </div>
 @endsection

@@ -24,17 +24,14 @@
                         <td><img src="{{ route('assets.download', $asset->id) }}" width="150"></td>
                         <td>{{ $asset->name }}</td>
                         <td>{{ $asset->created_at }}</td>
-                        <td>
+                        <td style="white-space: nowrap;">
                             <a class="btn btn-primary" href="{{ route('assets.show', $asset->id) }}"
                                role="button">View</a>
                             <a class="btn btn-primary" href="{{ route('assets.edit', $asset->id) }}"
                                role="button">Edit</a>
-                            <form action="{{ route('assets.destroy', $asset->id)}}" method="post"
-                                  class="d-inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-danger" type="submit" dusk="delete">Delete</button>
-                            </form>
+                            {!! Form::open(['route' => ['assets.destroy', $asset->id], 'class' => 'd-inline', 'method' => 'DELETE']) !!}
+                            {!! Form::button('Delete', ['class' => 'btn btn-danger', 'dusk' => 'delete', 'type' => 'submit']) !!}
+                            {!! Form::close() !!}
                         </td>
                     </tr>
                 @endforeach
