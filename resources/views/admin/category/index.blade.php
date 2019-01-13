@@ -30,13 +30,13 @@
                                role="button">Edit</a>
                             {!! Form::open(['route' => ['categories.move_up', $category->id], 'class' => 'd-inline']) !!}
                             @csrf
-                            @method('PATCH')
+                            @method('PUT')
                             <button class="btn btn-primary" type="submit" dusk="move_up_{{ $category->id }}">Move Up
                             </button>
                             {!! Form::close() !!}
                             {!! Form::open(['route' => ['categories.move_down', $category->id], 'class' => 'd-inline']) !!}
                             @csrf
-                            @method('PATCH')
+                            @method('PUT')
                             <button class="btn btn-primary" type="submit" dusk="move_down_{{ $category->id }}">Move
                                 Down
                             </button>

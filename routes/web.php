@@ -32,6 +32,6 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::get('assets/{asset}/download', 'AssetController@download')->name('assets.download');
 
     Route::resource('categories', 'CategoryController');
-    Route::patch('categories/{category}/move_down', 'CategoryController@moveDown')->name('categories.move_down');
-    Route::patch('categories/{category}/move_up', 'CategoryController@moveUp')->name('categories.move_up');
+    Route::put('categories/{category}/move_down', 'CategoryController@moveDown')->name('categories.move_down');
+    Route::put('categories/{category}/move_up', 'CategoryController@moveUp')->name('categories.move_up');
 });
