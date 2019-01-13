@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Article;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -38,8 +39,9 @@ class StoreArticle extends FormRequest
                 'required'
             ],
             'state' => [
-                'required'
-            ],
+                'required',
+                Rule::in(array_keys(Article::getAvailableStates()))
+            ]
         ];
     }
 }
