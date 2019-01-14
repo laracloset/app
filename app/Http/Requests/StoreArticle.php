@@ -44,8 +44,6 @@ class StoreArticle extends FormRequest
                 Rule::in(array_keys(Article::getAvailableStates()))
             ],
             'category' => [
-                'present',
-//                'nullable',
                 Rule::exists('categories', 'id')->where(function ($query) {
                     $query->where('deleted_at', null);
                 })
