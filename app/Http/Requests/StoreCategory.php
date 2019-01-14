@@ -33,6 +33,12 @@ class StoreCategory extends FormRequest
                 'required',
                 Rule::unique('categories')->ignore($this->category),
                 'max:255',
+            ],
+            'parent_id' => [
+                'nullable',
+                Rule::exists('categories', 'id')->where(function ($query) {
+                    $query->where('deleted_at', null);
+                })
             ]
         ];
     }

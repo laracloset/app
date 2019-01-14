@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Article;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use MongoDB\Driver\Query;
 
 class StoreArticle extends FormRequest
 {
@@ -38,8 +40,14 @@ class StoreArticle extends FormRequest
                 'required'
             ],
             'state' => [
-                'required'
+                'required',
+                Rule::in(array_keys(Article::getAvailableStates()))
             ],
+            'category' => [
+                Rule::exists('categories', 'id')->where(function ($query) {
+                    $query->where('deleted_at', null);
+                })
+            ]
         ];
     }
 }

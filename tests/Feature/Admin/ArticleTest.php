@@ -72,6 +72,25 @@ class ArticleTest extends TestCase
     /**
      * @return void
      */
+    public function testStoreWithInvalidState()
+    {
+        $existing = Article::all()->count();
+
+        $new = factory(Article::class)->make();
+
+        $this->post('/admin/articles', [
+            'title' => $new->title,
+            'slug' => $new->slug,
+            'body' => $new->body,
+            'state' => -1
+        ]);
+
+        $this->assertEquals(0, Article::all()->count() - $existing);
+    }
+
+    /**
+     * @return void
+     */
     public function testShow()
     {
         $this->get('/admin/articles/' . $this->article->id)
