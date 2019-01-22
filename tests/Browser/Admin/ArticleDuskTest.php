@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class ArticleTest extends DuskTestCase
+class ArticleDuskTest extends AdminDuskTestCase
 {
     use DatabaseMigrations;
 

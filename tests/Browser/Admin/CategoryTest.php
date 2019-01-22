@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class CategoryTest extends DuskTestCase
+class CategoryTest extends AdminDuskTestCase
 {
     use DatabaseMigrations;
 
