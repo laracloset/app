@@ -7,7 +7,7 @@ use App\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ArticleTest extends TestCase
+class ArticleTest extends AdminTestCase
 {
     use DatabaseMigrations;
 

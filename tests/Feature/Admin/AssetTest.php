@@ -8,7 +8,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
-class AssetTest extends TestCase
+class AssetTest extends AdminTestCase
 {
     use DatabaseMigrations;
 
