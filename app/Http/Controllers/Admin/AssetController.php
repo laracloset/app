@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Asset;
 use App\Http\Requests\StoreAsset;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -39,6 +38,7 @@ class AssetController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \App\Http\Requests\StoreAsset $request
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(StoreAsset $request)
@@ -52,10 +52,10 @@ class AssetController extends Controller
 
         $asset = new Asset([
             'model' => 'Asset',
-            'name' => $file->getClientOriginalName(),
-            'size' => $file->getSize(),
-            'type' => $file->getMimeType(),
-            'path' => $path
+            'name'  => $file->getClientOriginalName(),
+            'size'  => $file->getSize(),
+            'type'  => $file->getMimeType(),
+            'path'  => $path,
         ]);
 
         if ($asset->save()) {
@@ -70,7 +70,8 @@ class AssetController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -83,7 +84,8 @@ class AssetController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -98,6 +100,7 @@ class AssetController extends Controller
      *
      * @param \App\Http\Requests\StoreAsset $request
      * @param $id
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(StoreAsset $request, $id)
@@ -130,7 +133,8 @@ class AssetController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function destroy($id)
@@ -140,15 +144,12 @@ class AssetController extends Controller
         DB::beginTransaction();
 
         try {
-
             $deleted = $asset->delete() && Storage::disk()->delete($asset->path);
 
             if (!$deleted) {
                 throw new \Exception();
             }
-
         } catch (\Exception $e) {
-
             DB::rollBack();
             flash('The asset could not be deleted.')->error();
 
@@ -163,6 +164,7 @@ class AssetController extends Controller
 
     /**
      * @param $id
+     *
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function download($id)

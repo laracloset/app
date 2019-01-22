@@ -17,7 +17,7 @@ class Category extends Model
     protected $fillable = [
         'name',
         'slug',
-        'parent_id'
+        'parent_id',
     ];
 
     /**
@@ -32,8 +32,8 @@ class Category extends Model
         $list = [];
         $traverse = function ($categories, $prefix = '-') use (&$traverse, &$list) {
             foreach ($categories as $category) {
-                $list[$category->id] = $prefix . $category->name;
-                $traverse($category->children, $prefix . '-');
+                $list[$category->id] = $prefix.$category->name;
+                $traverse($category->children, $prefix.'-');
             }
         };
         $traverse($categoryCollection);

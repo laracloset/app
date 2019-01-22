@@ -3,17 +3,18 @@
 namespace Tests\Browser;
 
 use App\Article;
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class ArticleTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testIndex()
     {
@@ -30,13 +31,14 @@ class ArticleTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testIndexWithDraft()
     {
         $draft = factory(Article::class)->create([
-            'state' => Article::DRAFT
+            'state' => Article::DRAFT,
         ]);
 
         $this->browse(function (Browser $browser) use ($draft) {
@@ -46,15 +48,16 @@ class ArticleTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testDetail()
     {
         $article = factory(Article::class)->create();
 
         $this->browse(function (Browser $browser) use ($article) {
-            $browser->visit('/articles/' . $article->id)
+            $browser->visit('/articles/'.$article->id)
                 ->assertTitleContains($article->title)
                 ->assertSee($article->title)
                 ->assertSee($article->body);

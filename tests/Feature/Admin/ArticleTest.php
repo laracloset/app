@@ -53,13 +53,13 @@ class ArticleTest extends TestCase
         $new = factory(Article::class)->make();
 
         $this->post('/admin/articles', [
-            'title' => $new->title,
-            'slug' => $new->slug,
-            'body' => $new->body,
-            'state' => $new->state,
+            'title'    => $new->title,
+            'slug'     => $new->slug,
+            'body'     => $new->body,
+            'state'    => $new->state,
             'category' => $categories->map(function ($item, $key) {
                 return $item->id;
-            })->all()
+            })->all(),
         ])
             ->assertRedirect('/admin/articles');
 
@@ -80,9 +80,9 @@ class ArticleTest extends TestCase
 
         $this->post('/admin/articles', [
             'title' => $new->title,
-            'slug' => $new->slug,
-            'body' => $new->body,
-            'state' => -1
+            'slug'  => $new->slug,
+            'body'  => $new->body,
+            'state' => -1,
         ]);
 
         $this->assertEquals(0, Article::all()->count() - $existing);
@@ -93,7 +93,7 @@ class ArticleTest extends TestCase
      */
     public function testShow()
     {
-        $this->get('/admin/articles/' . $this->article->id)
+        $this->get('/admin/articles/'.$this->article->id)
             ->assertOk();
     }
 
@@ -111,7 +111,7 @@ class ArticleTest extends TestCase
      */
     public function testEdit()
     {
-        $this->get('/admin/articles/' . $this->article->id . '/edit')
+        $this->get('/admin/articles/'.$this->article->id.'/edit')
             ->assertOk();
     }
 
@@ -132,14 +132,14 @@ class ArticleTest extends TestCase
         $categories = factory(Category::class, 2)->create();
         $new = factory(Article::class)->make();
 
-        $this->put('/admin/articles/' . $this->article->id, [
-            'title' => $new->title,
-            'slug' => $new->slug,
-            'body' => $new->body,
-            'state' => $new->state,
+        $this->put('/admin/articles/'.$this->article->id, [
+            'title'    => $new->title,
+            'slug'     => $new->slug,
+            'body'     => $new->body,
+            'state'    => $new->state,
             'category' => $categories->map(function ($item, $key) {
                 return $item->id;
-            })->all()
+            })->all(),
         ])
             ->assertRedirect('/admin/articles');
 
@@ -158,9 +158,9 @@ class ArticleTest extends TestCase
 
         $this->put('/admin/articles/0', [
             'title' => $new->title,
-            'slug' => $new->slug,
-            'body' => $new->body,
-            'state' => $new->state
+            'slug'  => $new->slug,
+            'body'  => $new->body,
+            'state' => $new->state,
         ])
             ->assertNotFound();
     }
@@ -170,7 +170,7 @@ class ArticleTest extends TestCase
      */
     public function testDestroy()
     {
-        $this->delete('/admin/articles/' . $this->article->id)
+        $this->delete('/admin/articles/'.$this->article->id)
             ->assertRedirect();
 
         $this->assertNull(Article::query()->find($this->article->id));

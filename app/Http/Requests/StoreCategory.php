@@ -27,7 +27,7 @@ class StoreCategory extends FormRequest
         return [
             'name' => [
                 'required',
-                'max:255'
+                'max:255',
             ],
             'slug' => [
                 'required',
@@ -38,8 +38,8 @@ class StoreCategory extends FormRequest
                 'nullable',
                 Rule::exists('categories', 'id')->where(function ($query) {
                     $query->where('deleted_at', null);
-                })
-            ]
+                }),
+            ],
         ];
     }
 }

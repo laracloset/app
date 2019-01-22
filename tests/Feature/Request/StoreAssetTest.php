@@ -42,9 +42,9 @@ class StoreAssetTest extends TestCase
     public function additionProvider()
     {
         return [
-            'file' => ['file', UploadedFile::fake()->image('avatar.jpg'), true],
+            'file'        => ['file', UploadedFile::fake()->image('avatar.jpg'), true],
             '0Bytes_file' => ['file', UploadedFile::fake()->image('avatar.jpg')->size(0), true],
-            'blank_file' => ['file', null, false],
+            'blank_file'  => ['file', null, false],
         ];
     }
 }

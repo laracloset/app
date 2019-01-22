@@ -11,8 +11,9 @@ class LoginTest extends DuskTestCase
     use DatabaseMigrations;
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testLogin()
     {

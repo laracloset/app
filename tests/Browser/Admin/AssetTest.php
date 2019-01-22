@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Admin;
 
-
 use App\Asset;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
@@ -13,13 +12,14 @@ class AssetTest extends DuskTestCase
     use DatabaseMigrations;
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testIndexWithOtherModel()
     {
         factory(Asset::class)->create([
-            'model' => 'Foo'
+            'model' => 'Foo',
         ]);
 
         $this->browse(function (Browser $browser) {
@@ -29,8 +29,9 @@ class AssetTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testIndexWithPaginator()
     {
@@ -44,8 +45,9 @@ class AssetTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testUploadAsset()
     {
@@ -54,7 +56,7 @@ class AssetTest extends DuskTestCase
                 ->clickLink('Create Asset')
                 ->assertPathIs('/admin/assets/create')
                 ->assertTitleContains('Create Asset')
-                ->attach('file', dirname(__DIR__) . '/avatar.jpeg')
+                ->attach('file', dirname(__DIR__).'/avatar.jpeg')
                 ->click('@upload')
                 ->assertPathIs('/admin/assets')
                 ->assertSee('The asset has been saved.')
@@ -63,22 +65,24 @@ class AssetTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testUpload0Bytes()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/admin/assets/create')
-                ->attach('file', dirname(__DIR__) . '/0bytes.txt')
+                ->attach('file', dirname(__DIR__).'/0bytes.txt')
                 ->click('@upload')
                 ->assertSee('The asset has been saved.');
         });
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testUploadNoAsset()
     {
@@ -91,8 +95,9 @@ class AssetTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testView()
     {
@@ -101,7 +106,7 @@ class AssetTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($asset) {
             $browser->visit('/admin/assets')
                 ->clickLink('View')
-                ->assertPathIs('/admin/assets/' . $asset->id)
+                ->assertPathIs('/admin/assets/'.$asset->id)
                 ->assertTitleContains('View Asset')
                 ->assertSee($asset->id)
                 ->assertSee($asset->name)
@@ -112,8 +117,9 @@ class AssetTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testUpdateAsset()
     {
@@ -123,8 +129,8 @@ class AssetTest extends DuskTestCase
             $browser->visit('/admin/assets')
                 ->clickLink('Edit')
                 ->assertTitleContains('Edit Asset')
-                ->assertPathIs('/admin/assets/' . $asset->id . '/edit')
-                ->attach('file', dirname(__DIR__) . '/avatar.jpeg')
+                ->assertPathIs('/admin/assets/'.$asset->id.'/edit')
+                ->attach('file', dirname(__DIR__).'/avatar.jpeg')
                 ->click('@upload')
                 ->assertPathIs('/admin/assets')
                 ->assertSee('The asset has been saved.')
@@ -133,8 +139,9 @@ class AssetTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testDestroyAsset()
     {

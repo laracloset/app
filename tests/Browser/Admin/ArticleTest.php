@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Admin;
 
-
 use App\Article;
 use App\Category;
 use Faker\Provider\Lorem;
@@ -15,15 +14,15 @@ class ArticleTest extends DuskTestCase
     use DatabaseMigrations;
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testIndex()
     {
         $article = factory(Article::class)->create();
 
         $this->browse(function (Browser $browser) use ($article) {
-
             $browser->visit('/admin/articles')
                 ->assertTitleContains('Articles')
                 ->assertSee($article->id)
@@ -33,8 +32,9 @@ class ArticleTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testIndexWithSorting()
     {
@@ -48,8 +48,9 @@ class ArticleTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testIndexWithPaginating()
     {
@@ -62,8 +63,9 @@ class ArticleTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testAdding()
     {
@@ -90,8 +92,9 @@ class ArticleTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testEditing()
     {
@@ -120,8 +123,9 @@ class ArticleTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testViewing()
     {
@@ -131,7 +135,7 @@ class ArticleTest extends DuskTestCase
             $browser->visit('/admin/articles')
                 ->clickLink('View')
                 ->assertTitleContains('View Article')
-                ->assertPathIs('/admin/articles/' . $article->id)
+                ->assertPathIs('/admin/articles/'.$article->id)
                 ->assertSee($article->id)
                 ->assertSee($article->title)
                 ->assertSee($article->slug)
@@ -140,8 +144,9 @@ class ArticleTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testDeleting()
     {
@@ -157,8 +162,9 @@ class ArticleTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testRequestValidation()
     {
@@ -184,13 +190,14 @@ class ArticleTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testFillingFieldsWithOldValues()
     {
         $article = factory(Article::class)->create([
-            'state' => Article::PUBLISHED
+            'state' => Article::PUBLISHED,
         ]);
         $article->each(function ($a) {
             $a->categories()->saveMany(factory(Category::class, 2)->make());
@@ -213,7 +220,7 @@ class ArticleTest extends DuskTestCase
                 ->assertSelected('state', Article::PUBLISHED);
 
             // Fill title field with invalid value on update existing
-            $browser->visit('/admin/articles/' . $article->id . '/edit')
+            $browser->visit('/admin/articles/'.$article->id.'/edit')
                 ->type('title', str_repeat('a', 256))
                 ->type('slug', 'foo')
                 ->type('body', 'bar')

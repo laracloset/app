@@ -40,21 +40,21 @@ class AssetTest extends TestCase
         $file = UploadedFile::fake()->image('avatar.jpg');
 
         $this->post('/admin/assets', [
-            'file' => $file
+            'file' => $file,
         ]);
 
         $asset = Asset::query()
             ->first();
 
         // Assert the file was stored...
-        Storage::disk()->assertExists('assets/' . $file->hashName());
+        Storage::disk()->assertExists('assets/'.$file->hashName());
 
         $this->assertEquals('Asset', $asset->model);
         $this->assertEquals(null, $asset->foeign_key);
         $this->assertEquals('avatar.jpg', $asset->name);
         $this->assertEquals($file->getMimeType(), $asset->type);
         $this->assertEquals($file->getSize(), $asset->size);
-        $this->assertEquals('assets/' . $file->hashName(), $asset->path);
+        $this->assertEquals('assets/'.$file->hashName(), $asset->path);
     }
 
     /**
@@ -66,7 +66,7 @@ class AssetTest extends TestCase
 
         $asset = factory(Asset::class)->create();
 
-        $this->get('/admin/assets/' . $asset->id)
+        $this->get('/admin/assets/'.$asset->id)
             ->assertOk();
     }
 
@@ -88,7 +88,7 @@ class AssetTest extends TestCase
 
         $asset = factory(Asset::class)->create();
 
-        $this->get('/admin/assets/' . $asset->id . '/edit')
+        $this->get('/admin/assets/'.$asset->id.'/edit')
             ->assertOk();
     }
 
@@ -111,7 +111,7 @@ class AssetTest extends TestCase
         $file = UploadedFile::fake()->image('avatar.jpg');
 
         $this->put('/admin/assets/0', [
-            'file' => $file
+            'file' => $file,
         ])
             ->assertNotFound();
     }
@@ -127,8 +127,8 @@ class AssetTest extends TestCase
 
         $file = UploadedFile::fake()->image('logo.png');
 
-        $this->put('/admin/assets/' . $asset->id, [
-            'file' => $file
+        $this->put('/admin/assets/'.$asset->id, [
+            'file' => $file,
         ]);
 
         $updated = Asset::query()->find($asset->id);
@@ -138,7 +138,7 @@ class AssetTest extends TestCase
         $this->assertEquals('logo.png', $updated->name);
         $this->assertEquals($file->getMimeType(), $updated->type);
         $this->assertEquals($file->getSize(), $updated->size);
-        $this->assertEquals('assets/' . $file->hashName(), $updated->path);
+        $this->assertEquals('assets/'.$file->hashName(), $updated->path);
     }
 
     /**
@@ -159,7 +159,7 @@ class AssetTest extends TestCase
 
         $asset = factory(Asset::class)->create();
 
-        $this->delete('/admin/assets/' . $asset->id)
+        $this->delete('/admin/assets/'.$asset->id)
             ->assertRedirect();
 
         $this->assertNull(Asset::query()->find($asset->id));
@@ -186,7 +186,7 @@ class AssetTest extends TestCase
 
         $asset = factory(Asset::class)->create();
 
-        $this->get('/admin/assets/' . $asset->id . '/download')
+        $this->get('/admin/assets/'.$asset->id.'/download')
             ->assertHeader('Content-Type', $asset->type)
             ->assertOk();
     }

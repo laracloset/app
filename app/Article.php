@@ -21,7 +21,7 @@ class Article extends Model
         'title',
         'slug',
         'body',
-        'state'
+        'state',
     ];
 
     /**
@@ -31,14 +31,16 @@ class Article extends Model
     {
         return [
             self::PUBLISHED => self::PUBLISHED_ALIAS,
-            self::DRAFT => self::DRAFT_ALIAS
+            self::DRAFT     => self::DRAFT_ALIAS,
         ];
     }
 
     /**
      * @param $state
-     * @return mixed
+     *
      * @throws \Exception
+     *
+     * @return mixed
      */
     public static function getState($state)
     {

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Category;
 use App\Http\Requests\StoreCategory;
-use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -38,13 +37,14 @@ class CategoryController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \App\Http\Requests\StoreCategory $request
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(StoreCategory $request)
     {
         $category = new Category([
-            'name' => $request->get('name'),
-            'slug' => $request->get('slug'),
+            'name'      => $request->get('name'),
+            'slug'      => $request->get('slug'),
             'parent_id' => $request->get('parent_id'),
         ]);
         $category->save();
@@ -57,7 +57,8 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -70,7 +71,8 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -86,7 +88,8 @@ class CategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param \App\Http\Requests\StoreCategory $request
-     * @param  int $id
+     * @param int                              $id
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(StoreCategory $request, $id)
@@ -106,7 +109,8 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -121,6 +125,7 @@ class CategoryController extends Controller
 
     /**
      * @param $id
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function moveDown($id)
@@ -137,6 +142,7 @@ class CategoryController extends Controller
 
     /**
      * @param $id
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function moveUp($id)

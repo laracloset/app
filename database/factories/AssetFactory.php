@@ -10,9 +10,9 @@ $factory->define(\App\Asset::class, function (Faker $faker) {
 
     return [
         'model' => 'Asset',
-        'name' => $file->getClientOriginalName(),
-        'type' => $file->getMimeType(),
-        'size' => $file->getSize(),
-        'path' => $path,
+        'name'  => $file->getClientOriginalName(),
+        'type'  => $file->getMimeType(),
+        'size'  => $file->getSize(),
+        'path'  => $path,
     ];
 });

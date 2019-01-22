@@ -17,11 +17,11 @@ class StoreCategoryTest extends TestCase
         parent::setUp();
 
         factory(Category::class)->create([
-            'slug' => 'foo'
+            'slug' => 'foo',
         ]);
 
         factory(Category::class)->create([
-            'slug' => 'bar'
+            'slug' => 'bar',
         ]);
         Category::query()->latest('id')->first()->delete();
     }
@@ -35,8 +35,8 @@ class StoreCategoryTest extends TestCase
     public function testRules($field, $value, $expected)
     {
         $defaults = [
-            'name' => 'baz',
-            'slug' => 'qux',
+            'name'      => 'baz',
+            'slug'      => 'qux',
             'parent_id' => 1,
         ];
         $data = array_merge($defaults, [$field => $value]);
@@ -52,14 +52,14 @@ class StoreCategoryTest extends TestCase
     public function additionProvider()
     {
         return [
-            'name' => ['name', str_repeat('a', 255), true],
+            'name'                => ['name', str_repeat('a', 255), true],
             'exceeded_name_limit' => ['name', str_repeat('a', 256), false],
-            'slug' => ['slug', str_repeat('a', 255), true],
+            'slug'                => ['slug', str_repeat('a', 255), true],
             'exceeded_slug_limit' => ['slug', str_repeat('a', 256), false],
-            'duplicated_slug' => ['slug', 'foo', false],
-            'blank_category' => ['parent_id', null, true],
-            'invalid_category' => ['parent_id', -1, false],
-            'deleted_category' => ['parent_id', 2, false],
+            'duplicated_slug'     => ['slug', 'foo', false],
+            'blank_category'      => ['parent_id', null, true],
+            'invalid_category'    => ['parent_id', -1, false],
+            'deleted_category'    => ['parent_id', 2, false],
         ];
     }
 }

@@ -39,6 +39,7 @@ class ArticleController extends Controller
      * Store a newly created resource in storage.
      *
      * @param \App\Http\Requests\StoreArticle $request
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(StoreArticle $request)
@@ -46,18 +47,15 @@ class ArticleController extends Controller
         DB::beginTransaction();
 
         try {
-
             $article = new Article([
                 'title' => $request->get('title'),
-                'slug' => $request->get('slug'),
-                'body' => $request->get('body'),
+                'slug'  => $request->get('slug'),
+                'body'  => $request->get('body'),
                 'state' => $request->get('state'),
             ]);
             $article->save();
             $article->categories()->sync($request->get('category'));
-
         } catch (\Exception $e) {
-
             DB::rollback();
             flash('The article could not been saved. Please, try again.')->error();
 
@@ -73,7 +71,8 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -86,7 +85,8 @@ class ArticleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -102,7 +102,8 @@ class ArticleController extends Controller
      * Update the specified resource in storage.
      *
      * @param \App\Http\Requests\StoreArticle $request
-     * @param  int $id
+     * @param int                             $id
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(StoreArticle $request, $id)
@@ -112,16 +113,13 @@ class ArticleController extends Controller
         DB::beginTransaction();
 
         try {
-
             $article->title = $request->get('title');
             $article->slug = $request->get('slug');
             $article->body = $request->get('body');
             $article->state = $request->get('state');
             $article->save();
             $article->categories()->sync($request->get('category'));
-
         } catch (\Exception $e) {
-
             DB::rollBack();
             flash('The article could not been saved. Please, try again.')->error();
 
@@ -137,7 +135,8 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -147,11 +146,8 @@ class ArticleController extends Controller
         DB::beginTransaction();
 
         try {
-
             $article->delete();
-
         } catch (\Exception $e) {
-
             DB::rollBack();
             flash('The article could not be deleted.')->error();
 

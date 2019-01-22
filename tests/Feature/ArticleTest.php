@@ -26,7 +26,7 @@ class ArticleTest extends TestCase
     {
         $article = factory(Article::class)->create();
 
-        $this->get('/articles/' . $article->id)
+        $this->get('/articles/'.$article->id)
             ->assertOk();
     }
 
@@ -45,10 +45,10 @@ class ArticleTest extends TestCase
     public function testGetDetailWithDraft()
     {
         $draft = factory(Article::class)->create([
-            'state' => Article::DRAFT
+            'state' => Article::DRAFT,
         ]);
 
-        $this->get('/articles/' . $draft->id)
+        $this->get('/articles/'.$draft->id)
             ->assertNotFound();
     }
 }

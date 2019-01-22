@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Admin;
 
-
 use App\Category;
 use Faker\Provider\Lorem;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -14,15 +13,15 @@ class CategoryTest extends DuskTestCase
     use DatabaseMigrations;
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testIndex()
     {
         $category = factory(Category::class)->create();
 
         $this->browse(function (Browser $browser) use ($category) {
-
             $browser->visit('/admin/categories')
                 ->assertTitleContains('Categories')
                 ->assertSee($category->id)
@@ -32,8 +31,9 @@ class CategoryTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testIndexHasNoPaginating()
     {
@@ -48,8 +48,9 @@ class CategoryTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testAddingAsRoot()
     {
@@ -72,8 +73,9 @@ class CategoryTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testAddingAsChild()
     {
@@ -95,20 +97,21 @@ class CategoryTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testEditing()
     {
         $parent = factory(Category::class)->create();
         $category = factory(Category::class)->create([
-            'parent_id' => $parent->id
+            'parent_id' => $parent->id,
         ]);
 
         $this->browse(function (Browser $browser) use ($category) {
             $newTitle = Lorem::word();
 
-            $browser->visit('/admin/categories/' . $category->id . '/edit')
+            $browser->visit('/admin/categories/'.$category->id.'/edit')
                 ->assertTitleContains('Edit Category')
                 ->assertInputValue('name', $category->name)
                 ->assertInputValue('slug', $category->slug)
@@ -122,18 +125,19 @@ class CategoryTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testViewing()
     {
         $parent = factory(Category::class)->create();
         $category = factory(Category::class)->create([
-            'parent_id' => $parent->id
+            'parent_id' => $parent->id,
         ]);
 
         $this->browse(function (Browser $browser) use ($category) {
-            $browser->visit('/admin/categories/' . $category->id)
+            $browser->visit('/admin/categories/'.$category->id)
                 ->assertTitleContains('View Category')
                 ->assertSee($category->id)
                 ->assertSee($category->name)
@@ -143,8 +147,9 @@ class CategoryTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testDeleting()
     {
@@ -160,8 +165,9 @@ class CategoryTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testMoveDown()
     {
@@ -172,20 +178,21 @@ class CategoryTest extends DuskTestCase
             $bottom = $categories[1];
 
             $browser->visit('/admin/categories')
-                ->click('@move_down_' . $bottom->id)
+                ->click('@move_down_'.$bottom->id)
                 ->assertPathIs('/admin/categories')
                 ->assertSee('Could not move down.');
 
             $browser->visit('/admin/categories')
-                ->click('@move_down_' . $top->id)
+                ->click('@move_down_'.$top->id)
                 ->assertPathIs('/admin/categories')
                 ->assertSee('Move down successfully.');
         });
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testMoveUp()
     {
@@ -196,20 +203,21 @@ class CategoryTest extends DuskTestCase
             $bottom = $categories[1];
 
             $browser->visit('/admin/categories')
-                ->click('@move_up_' . $top->id)
+                ->click('@move_up_'.$top->id)
                 ->assertPathIs('/admin/categories')
                 ->assertSee('Could not move up.');
 
             $browser->visit('/admin/categories')
-                ->click('@move_up_' . $bottom->id)
+                ->click('@move_up_'.$bottom->id)
                 ->assertPathIs('/admin/categories')
                 ->assertSee('Move up successfully.');
         });
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testRequestValidation()
     {
@@ -234,8 +242,9 @@ class CategoryTest extends DuskTestCase
     }
 
     /**
-     * @return void
      * @throws \Throwable
+     *
+     * @return void
      */
     public function testFillingFieldsWithOldValues()
     {
@@ -254,7 +263,7 @@ class CategoryTest extends DuskTestCase
                 ->assertSelected('parent_id', $category->id);
 
             // Fill name field with invalid value on update existing
-            $browser->visit('/admin/categories/' . $category->id . '/edit')
+            $browser->visit('/admin/categories/'.$category->id.'/edit')
                 ->type('name', str_repeat('a', 256))
                 ->type('slug', 'foo')
                 ->select('parent_id', $category->id)
