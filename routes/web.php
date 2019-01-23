@@ -35,5 +35,5 @@ Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function (
     Route::patch('categories/{category}/move_down', 'CategoryController@moveDown')->name('categories.move_down');
     Route::patch('categories/{category}/move_up', 'CategoryController@moveUp')->name('categories.move_up');
 
-    Route::get('/', 'HomeController@index')->name('dashboard');
+    Route::get('/home', 'HomeController@index')->name('admin.home');
 });
