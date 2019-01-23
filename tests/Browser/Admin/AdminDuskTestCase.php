@@ -15,7 +15,7 @@ abstract class AdminDuskTestCase extends DuskTestCase
         parent::setUp();
 
         $this->browse(function (Browser $browser) {
-            $browser->loginAs(factory(User::class)->create());
+            $browser->loginAs(factory(Admin::class)->create());
         });
     }
 }

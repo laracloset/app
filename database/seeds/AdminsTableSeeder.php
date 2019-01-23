@@ -1,10 +1,11 @@
 <?php
 
+use App\Admin;
 use App\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
-class AdminTableSeeder extends Seeder
+class AdminsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,12 +14,6 @@ class AdminTableSeeder extends Seeder
      */
     public function run()
     {
-        $roles = [
-            User::ADMIN,
-        ];
-
-        foreach ($roles as $role) {
-            Role::create(['name' => $role]);
-        }
+        factory(Admin::class)->create();
     }
 }
