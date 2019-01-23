@@ -3,7 +3,7 @@
 namespace Tests\Feature\Admin;
 
 
-use App\User;
+use App\Admin;
 use Tests\TestCase;
 
 abstract class AdminTestCase extends TestCase
@@ -13,7 +13,7 @@ abstract class AdminTestCase extends TestCase
     {
         parent::setUp();
 
-        $this->actingAs(factory(User::class)->create());
+        $this->actingAs(factory(Admin::class)->create());
     }
 
 }
