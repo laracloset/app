@@ -40,14 +40,4 @@ class ForgotPasswordController extends Controller
     {
         return view('admin.auth.passwords.email');
     }
-
-    /**
-     * Get the broker to be used during password reset.
-     *
-     * @return \Illuminate\Contracts\Auth\PasswordBroker
-     */
-    public function broker()
-    {
-        return Password::broker('admins');
-    }
 }

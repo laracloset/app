@@ -24,13 +24,6 @@ class ResetPasswordController extends Controller
     use ResetsPasswords;
 
     /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/admin/home';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -64,13 +57,5 @@ class ResetPasswordController extends Controller
     public function broker()
     {
         return Password::broker('admins');
-    }
-
-    /**
-     * @return \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard|mixed
-     */
-    public function guard()
-    {
-        return Auth::guard('admin');
     }
 }

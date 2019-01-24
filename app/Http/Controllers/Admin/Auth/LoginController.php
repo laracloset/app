@@ -47,12 +47,4 @@ class LoginController extends Controller
     {
         return view('admin.auth.login');
     }
-
-    /**
-     * @return mixed
-     */
-    protected function guard()
-    {
-        return Auth::guard('admin');
-    }
 }
