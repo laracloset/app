@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Admin;
 
-
 use App\Admin;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -62,7 +61,6 @@ class LoginTest extends DuskTestCase
                 ->click('@login')
                 ->assertPathIs('/admin/articles');
         });
-
     }
 
     /**

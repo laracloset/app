@@ -26,5 +26,4 @@ class ResetPasswordNotification extends ResetPassword
             ->action(Lang::getFromJson('Reset Password'), url(config('app.url') . route('admin.password.reset', $this->token, false)))
             ->line(Lang::getFromJson('If you did not request a password reset, no further action is required.'));
     }
-
 }
