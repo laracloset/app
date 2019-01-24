@@ -11,7 +11,7 @@ class HomeTest extends AdminTestCase
      */
     public function testIndex()
     {
-        $this->get('/admin/')
+        $this->get('/admin/home')
             ->assertOk();
     }
 }
