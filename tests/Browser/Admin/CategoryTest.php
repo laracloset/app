@@ -41,7 +41,7 @@ class CategoryTest extends AdminDuskTestCase
 
         $this->browse(function (Browser $browser) use ($categories) {
             $browser->visit('/admin/categories')
-                ->assertDontSeeLink('2')
+                ->assertDontSeeLink('›')
                 ->assertSee($categories[0]->id)
                 ->assertSee($categories[19]->id);
         });
