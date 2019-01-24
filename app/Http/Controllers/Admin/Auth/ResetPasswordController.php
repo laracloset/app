@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Auth;
 use App\Http\Controllers\Admin\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 
 class ResetPasswordController extends Controller
@@ -63,5 +64,13 @@ class ResetPasswordController extends Controller
     public function broker()
     {
         return Password::broker('admins');
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard|mixed
+     */
+    public function guard()
+    {
+        return Auth::guard('admin');
     }
 }
