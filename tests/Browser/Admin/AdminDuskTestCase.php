@@ -3,7 +3,7 @@
 namespace Tests\Browser\Admin;
 
 
-use App\User;
+use App\Admin;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
