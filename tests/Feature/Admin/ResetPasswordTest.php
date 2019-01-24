@@ -3,12 +3,15 @@
 namespace Tests\Feature\Admin;
 
 use App\Admin;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Tests\TestCase;
 
 class ResetPasswordTest extends TestCase
 {
+    use DatabaseMigrations;
+
     const ORIGINAL_PASSWORD = 'secret';
     const NEW_PASSWORD = 'new_password';
 
