@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class AssetTest extends DuskTestCase
+class AssetDuskTest extends AdminDuskTestCase
 {
     use DatabaseMigrations;
 

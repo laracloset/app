@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class CategoryTest extends DuskTestCase
+class CategoryTest extends AdminDuskTestCase
 {
     use DatabaseMigrations;
 
@@ -41,7 +41,7 @@ class CategoryTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($categories) {
             $browser->visit('/admin/categories')
-                ->assertDontSeeLink('2')
+                ->assertDontSeeLink('›')
                 ->assertSee($categories[0]->id)
                 ->assertSee($categories[19]->id);
         });

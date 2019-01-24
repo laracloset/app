@@ -4,6 +4,7 @@ linters:
     fixer: true
 files:
   ignore:
+    - 'database/migrations/*'
     - 'vendor/*'
 fixers:
   enable: true
