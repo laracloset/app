@@ -3,6 +3,7 @@
 use App\Admin;
 use App\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class AdminsTableSeeder extends Seeder
@@ -14,6 +15,15 @@ class AdminsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Admin::class)->create();
+        $admins = [
+            [
+                'email' => 'admin@example.com',
+                'password' => Hash::make('secret')
+            ]
+        ];
+
+        foreach ($admins as $admin) {
+            factory(Admin::class)->create($admin);
+        }
     }
 }
