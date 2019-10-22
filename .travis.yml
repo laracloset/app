@@ -1,18 +1,15 @@
 language: php
 sudo: required
-dist: trusty
+dist: xenial
+
+services:
+  - mysql
 
 php:
   - 7.2
 
 addons:
   chrome: stable
-  apt:
-    sources:
-      - mysql-5.7-trusty
-    packages:
-      - mysql-server
-      - mysql-client
 
 install:
   - mysql -e 'create database homestead;'
