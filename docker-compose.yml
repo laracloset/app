@@ -33,3 +33,8 @@ services:
         - .:/application
         - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
 
+    mailhog:
+      image: mailhog/mailhog
+      container_name: laravel-mailhog
+      ports:
+        - "8085:8025"
