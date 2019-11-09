@@ -2,8 +2,6 @@
 
 namespace Tests\Feature\Admin;
 
-use Tests\TestCase;
-
 class HomeTest extends AdminTestCase
 {
     /**
