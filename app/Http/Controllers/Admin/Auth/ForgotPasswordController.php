@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
+use App\Enums\LoginStatusType;
 use App\Http\Controllers\Admin\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\Rule;
 
 class ForgotPasswordController extends Controller
 {
@@ -39,6 +42,21 @@ class ForgotPasswordController extends Controller
     public function showLinkRequestForm()
     {
         return view('admin.auth.passwords.email');
+    }
+
+    /**
+     * Validate the email for the given request.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return void
+     */
+    protected function validateEmail(Request $request)
+    {
+        $this->validate($request, ['email' => [
+            'required',
+            'email',
+            Rule::exists('admins')->where('active', LoginStatusType::ACTIVE)
+        ]]);
     }
 
     /**
