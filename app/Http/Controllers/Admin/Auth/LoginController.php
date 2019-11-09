@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
+use App\Enums\LoginStatusType;
 use App\Http\Controllers\Admin\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -19,7 +21,9 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers {
+        credentials as _credentials;
+    }
 
     /**
      * Where to redirect users after login.
@@ -36,6 +40,19 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * Get the needed authorization credentials from the request.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return array
+     */
+    protected function credentials(Request $request)
+    {
+        return array_merge($this->_credentials($request), [
+            'active' => LoginStatusType::ACTIVE
+        ]);
     }
 
     /**

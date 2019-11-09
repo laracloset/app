@@ -3,6 +3,7 @@
 namespace Tests\Feature\Admin;
 
 use App\Admin;
+use App\Enums\LoginStatusType;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -37,5 +38,25 @@ class ResetPasswordTest extends TestCase
 
         $this->assertFalse(Hash::check(self::ORIGINAL_PASSWORD, $admin->password));
         $this->assertTrue(Hash::check(self::NEW_PASSWORD, $admin->password));
+    }
+
+    /**
+     * @return void
+     */
+    public function testSubmitPasswordResetRequestWithInactive()
+    {
+        $admin = factory(Admin::class)->create([
+            'password' => bcrypt(self::ORIGINAL_PASSWORD),
+            'active' => LoginStatusType::INACTIVE,
+        ]);
+
+        $token = Password::broker('admins')->createToken($admin);
+
+        $this->post('/admin/password/reset', [
+            'token' => $token,
+            'email' => $admin->email,
+            'password' => self::NEW_PASSWORD,
+            'password_confirmation' => self::NEW_PASSWORD
+        ])->assertSessionHasErrors('email');
     }
 }

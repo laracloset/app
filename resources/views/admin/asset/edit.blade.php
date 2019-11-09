@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin.app')
 
 @section('title', 'Edit Asset')
 
@@ -8,7 +8,7 @@
             Edit Asset
         </div>
         <div class="card-body">
-            {!! Form::open(['route' => ['assets.update', $asset->id], 'enctype' => 'multipart/form-data' , 'method' => 'PATCH']) !!}
+            {!! Form::open(['route' => ['admin.assets.update', $asset->id], 'enctype' => 'multipart/form-data' , 'method' => 'PATCH']) !!}
             <div class="form-group">
                 <label for="title">File</label>
                 {!! Form::file('file', ['class' => 'form-control']) !!}

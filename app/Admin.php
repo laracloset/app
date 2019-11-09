@@ -35,4 +35,12 @@ class Admin extends Authenticatable
     {
         $this->notify(new ResetPasswordNotification($token));
     }
+
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return (bool)$this->active;
+    }
 }
