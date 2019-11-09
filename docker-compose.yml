@@ -38,3 +38,15 @@ services:
       container_name: laravel-mailhog
       ports:
         - "8085:8025"
+
+    minio:
+      image: minio/minio
+      container_name: laravel-minio
+      command: server /data
+      volumes:
+        - ./docker/minio/data:/data
+      ports:
+        - "${MINIO_PORT}:9000"
+      environment:
+        MINIO_ACCESS_KEY: ${AWS_KEY}
+        MINIO_SECRET_KEY: ${AWS_SECRET}
