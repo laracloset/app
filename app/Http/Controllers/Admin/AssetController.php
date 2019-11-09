@@ -70,26 +70,22 @@ class AssetController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param Asset $asset
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Asset $asset)
     {
-        $asset = Asset::query()->findOrFail($id);
-
         return view('admin.asset.show', compact('asset'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param Asset $asset
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Asset $asset)
     {
-        $asset = Asset::query()->findOrFail($id);
-
         return view('admin.asset.edit', compact('asset'));
     }
 
@@ -97,12 +93,14 @@ class AssetController extends Controller
      * Update the specified resource in storage.
      *
      * @param \App\Http\Requests\StoreAsset $request
-     * @param $id
+     * @param Asset $asset
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(StoreAsset $request, $id)
+    public function update(StoreAsset $request, Asset $asset)
     {
-        $asset = Asset::query()->findOrFail($id);
+        if (Storage::exists($asset->path) && !Storage::delete($asset->path)) {
+            abort(500);
+        }
 
         $file = $request->file('file');
         $path = $file->store('assets');
@@ -130,45 +128,31 @@ class AssetController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param Asset $asset
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Asset $asset)
     {
-        $asset = Asset::query()->findOrFail($id);
+        if (Storage::exists($asset->path) && !Storage::delete($asset->path)) {
+            abort(500);
+        }
 
-        DB::beginTransaction();
-
-        try {
-
-            $deleted = $asset->delete() && Storage::disk()->delete($asset->path);
-
-            if (!$deleted) {
-                throw new \Exception();
-            }
-
-        } catch (\Exception $e) {
-
-            DB::rollBack();
-            flash('The asset could not be deleted.')->error();
-
+        if ($asset->delete()) {
+            flash('The asset has been deleted.')->success();
             return back();
         }
 
-        DB::commit();
-        flash('The asset has been deleted.')->success();
-
+        flash('The asset could not be deleted.')->error();
         return back();
     }
 
     /**
-     * @param $id
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @param Asset $asset
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
      */
-    public function download($id)
+    public function download(Asset $asset)
     {
-        $asset = Asset::query()->findOrFail($id);
-
         return Storage::disk()->download($asset->path);
     }
 }
