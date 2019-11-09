@@ -22,9 +22,9 @@ class LoginTest extends TestCase
         ]);
 
         $this->post('/admin/login', [
-            'email' => $admin,
+            'email' => $admin->email,
             'password' => 'secret',
-        ])->assertRedirect('/');
+        ])->assertRedirect('/admin/home');
 
         $this->assertAuthenticated('admin');
     }
@@ -40,7 +40,7 @@ class LoginTest extends TestCase
         ]);
 
         $this->post('/admin/login', [
-            'email' => $admin,
+            'email' => $admin->email,
             'password' => 'secret',
         ]);
 
