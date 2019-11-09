@@ -8,7 +8,7 @@
             Add Article
         </div>
         <div class="card-body">
-            {!! Form::open(['route' => 'articles.store']) !!}
+            {!! Form::open(['route' => 'admin.articles.store']) !!}
             <div class="form-group">
                 <label for="title">Title</label>
                 {!! Form::text('title', null, ['class' => 'form-control']) !!}

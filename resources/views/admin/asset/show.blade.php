@@ -14,7 +14,7 @@
             </dl>
             <dl>
                 <dt>Thumbnail</dt>
-                <dd><img src="{{ route('assets.download', $asset->id) }}" width="150"></dd>
+                <dd><img src="{{ route('admin.assets.download', $asset->id) }}" width="150"></dd>
             </dl>
             <dl>
                 <dt>Name</dt>

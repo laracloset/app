@@ -8,7 +8,7 @@
             Add Category
         </div>
         <div class="card-body">
-            {!! Form::open(['route' => 'categories.store']) !!}
+            {!! Form::open(['route' => 'admin.categories.store']) !!}
             @csrf
             <div class="form-group">
                 <label for="name">Name</label>

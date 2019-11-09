@@ -23,18 +23,18 @@
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->created_at }}</td>
                         <td style="white-space: nowrap;">
-                            <a class="btn btn-primary" href="{{ route('categories.show', $category->id) }}"
+                            <a class="btn btn-primary" href="{{ route('admin.categories.show', $category->id) }}"
                                role="button">View</a>
                             <a class="btn btn-primary"
-                               href="{{ route('categories.edit', $category->id) }}"
+                               href="{{ route('admin.categories.edit', $category->id) }}"
                                role="button">Edit</a>
-                            {!! Form::open(['route' => ['categories.move_up', $category->id], 'class' => 'd-inline', 'method' => 'PATCH']) !!}
+                            {!! Form::open(['route' => ['admin.categories.move_up', $category->id], 'class' => 'd-inline', 'method' => 'PATCH']) !!}
                             {!! Form::button('Delete Up', ['class' => 'btn btn-primary', 'dusk' => 'move_up_' . $category->id, 'type' => 'submit']) !!}
                             {!! Form::close() !!}
-                            {!! Form::open(['route' => ['categories.move_down', $category->id], 'class' => 'd-inline', 'method' => 'PATCH']) !!}
+                            {!! Form::open(['route' => ['admin.categories.move_down', $category->id], 'class' => 'd-inline', 'method' => 'PATCH']) !!}
                             {!! Form::button('Delete Down', ['class' => 'btn btn-primary', 'dusk' => 'move_down_' . $category->id, 'type' => 'submit']) !!}
                             {!! Form::close() !!}
-                            {!! Form::open(['route' => ['categories.destroy', $category->id], 'class' => 'd-inline', 'method' => 'DELETE']) !!}
+                            {!! Form::open(['route' => ['admin.categories.destroy', $category->id], 'class' => 'd-inline', 'method' => 'DELETE']) !!}
                             {!! Form::button('Delete', ['class' => 'btn btn-danger', 'dusk' => 'delete', 'type' => 'submit']) !!}
                             {!! Form::close() !!}
                         </td>

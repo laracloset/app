@@ -8,7 +8,7 @@
             Add Asset
         </div>
         <div class="card-body">
-            {!! Form::open(['route' => 'assets.store', 'enctype' => 'multipart/form-data']) !!}
+            {!! Form::open(['route' => 'admin.assets.store', 'enctype' => 'multipart/form-data']) !!}
             <div class="form-group">
                 <label for="name">File</label>
                 {!! Form::file('file', ['class' => 'form-control']) !!}

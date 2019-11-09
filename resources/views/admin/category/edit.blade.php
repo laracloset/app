@@ -8,7 +8,7 @@
             Edit Category
         </div>
         <div class="card-body">
-            {!! Form::open(['route' => ['categories.update', $category->id], 'method' => 'PATCH']) !!}
+            {!! Form::open(['route' => ['admin.categories.update', $category->id], 'method' => 'PATCH']) !!}
             <div class="form-group">
                 <label for="title">Name</label>
                 {!! Form::text('name', old('name', $category->name), ['class' => 'form-control']) !!}

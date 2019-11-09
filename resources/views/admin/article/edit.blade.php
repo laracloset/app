@@ -8,7 +8,7 @@
             Edit Article
         </div>
         <div class="card-body">
-            {!! Form::open(['route' => ['articles.update', $article->id], 'method' => "PATCH"]) !!}
+            {!! Form::open(['route' => ['admin.articles.update', $article->id], 'method' => "PATCH"]) !!}
             <div class="form-group">
                 <label for="title">Title</label>
                 {!! Form::text('title', old('title', $article->title), ['class' => 'form-control']) !!}
