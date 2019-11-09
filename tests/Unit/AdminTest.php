@@ -4,10 +4,13 @@ namespace Tests\Unit;
 
 use App\Admin;
 use App\Enums\LoginStatusType;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class AdminTest extends TestCase
 {
+    use DatabaseMigrations;
+
     /**
      * @return void
      */
