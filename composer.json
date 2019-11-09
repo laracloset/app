@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": "^7.1.3",
+        "bensampo/laravel-enum": "^1.26",
         "fideloper/proxy": "^4.0",
         "kalnoy/nestedset": "^4.3",
         "laracasts/flash": "^3.0",
