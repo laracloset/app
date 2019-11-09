@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
+use App\Enums\LoginStatusType;
 use App\Http\Controllers\Admin\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\Rule;
 
 class ResetPasswordController extends Controller
 {
@@ -72,5 +74,23 @@ class ResetPasswordController extends Controller
     public function guard()
     {
         return Auth::guard('admin');
+    }
+
+    /**
+     * Get the password reset validation rules.
+     *
+     * @return array
+     */
+    protected function rules()
+    {
+        return [
+            'token' => 'required',
+            'email' => [
+                'required',
+                'email',
+                Rule::exists('admins')->where('active', LoginStatusType::ACTIVE)
+            ],
+            'password' => 'required|confirmed|min:6',
+        ];
     }
 }
