@@ -3,7 +3,7 @@
 @section('title', 'Categories')
 
 @section('content')
-    <a class="btn btn-primary mb-2" href="{{ route('categories.create') }}" role="button">Create Category</a>
+    <a class="btn btn-primary mb-2" href="{{ route('admin.categories.create') }}" role="button">Create Category</a>
     <div class="card">
         <div class="card-header">
             Categories
