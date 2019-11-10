@@ -20,7 +20,7 @@ class InactiveAdminTest extends TestCase
             'active' => LoginStatusType::INACTIVE
         ]), 'admin');
 
-        $this->get('/admin/home')
+        $this->get('/admin/')
             ->assertForbidden();
     }
 }

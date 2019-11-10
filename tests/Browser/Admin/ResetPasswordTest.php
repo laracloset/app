@@ -34,7 +34,7 @@ class ResetPasswordTest extends DuskTestCase
                 ->type('password', self::NEW_PASSWORD)
                 ->type('password_confirmation', self::NEW_PASSWORD)
                 ->click('@reset_password')
-                ->assertPathIs('/admin/home')
+                ->assertPathIs('/admin/')
                 ->assertSee('has been reset');
         });
     }

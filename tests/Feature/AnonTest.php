@@ -13,7 +13,7 @@ class AnonTest extends TestCase
      */
     public function testAdminHome()
     {
-        $this->get('/admin/home')
+        $this->get('/admin/')
             ->assertRedirect('/admin/login');
     }
 }

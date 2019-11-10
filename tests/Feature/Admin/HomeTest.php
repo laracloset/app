@@ -9,7 +9,7 @@ class HomeTest extends AdminTestCase
      */
     public function testIndex()
     {
-        $this->get('/admin/home')
+        $this->get('/admin/')
             ->assertOk();
     }
 }

@@ -39,7 +39,7 @@ class LoginTest extends DuskTestCase
                 ->type('email', $admin->email)
                 ->type('password', 'secret')
                 ->click('@login')
-                ->assertPathIs('/admin/home')
+                ->assertPathIs('/admin/')
                 ->assertSee($admin->name);
         });
     }

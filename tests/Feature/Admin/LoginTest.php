@@ -24,7 +24,7 @@ class LoginTest extends TestCase
         $this->post('/admin/login', [
             'email' => $admin->email,
             'password' => 'secret',
-        ])->assertRedirect('/admin/home');
+        ])->assertRedirect('/admin/');
 
         $this->assertAuthenticated('admin');
     }

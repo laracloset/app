@@ -32,7 +32,7 @@ class ResetPasswordTest extends TestCase
             'email' => $admin->email,
             'password' => self::NEW_PASSWORD,
             'password_confirmation' => self::NEW_PASSWORD
-        ])->assertRedirect('/admin/home');
+        ])->assertRedirect('/admin/');
 
         $admin->refresh();
 
