@@ -34,7 +34,7 @@ docker-compose exec php-fpm bash -c "php composer.phar install && php artisan mi
 
 Admin
 
-http://localhost:8080/admin/home
+http://localhost:8080/admin
 
 ```
 id: admin@example.com

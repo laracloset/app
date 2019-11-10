@@ -38,7 +38,7 @@ Route::prefix('admin')
         Route::patch('categories/{category}/move_down', 'CategoryController@moveDown')->name('categories.move_down');
         Route::patch('categories/{category}/move_up', 'CategoryController@moveUp')->name('categories.move_up');
 
-        Route::get('/home', 'HomeController@index')->name('home');
+        Route::get('/', 'HomeController@index')->name('home');
     });
 
 Route::prefix('admin')->namespace('Admin')->name('admin.')->group(function () {
