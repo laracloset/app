@@ -49,5 +49,5 @@ mysql -u root -p secret -P 33060 -D homestead
 
 #### MinIO
 
-http://localhost:9000/minio/foo/
+http://localhost:9000/minio/
 
