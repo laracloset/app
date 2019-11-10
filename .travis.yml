@@ -2,7 +2,7 @@ language: php
 sudo: required
 dist: xenial
 
-env
+env:
   - DB_CONNECTION=mysql
 
 services:
