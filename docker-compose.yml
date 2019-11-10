@@ -4,16 +4,22 @@ services:
     mysql:
       image: mysql:5.7
       container_name: laravel-mysql
-      working_dir: /application
-      volumes:
-        - .:/application
       environment:
         - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
         - MYSQL_DATABASE=${DB_DATABASE}
         - MYSQL_USER=${DB_USERNAME}
         - MYSQL_PASSWORD=${DB_PASSWORD}
       ports:
-        - "8082:3306"
+        - "${MYSQL_PORT}:3306"
+
+    mysql-test:
+      image: mysql:5.7
+      container_name: laravel-mysql-test
+      environment:
+        - MYSQL_ROOT_PASSWORD=${DB_TEST_PASSWORD}
+        - MYSQL_DATABASE=${DB_TEST_DATABASE}
+        - MYSQL_USER=${DB_TEST_USERNAME}
+        - MYSQL_PASSWORD=${DB_TEST_PASSWORD}
 
     webserver:
       image: nginx:alpine
@@ -23,7 +29,11 @@ services:
         - .:/application
         - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       ports:
-        - "8080:80"
+        - "${APP_PORT}:80"
+      depends_on:
+        - mysql
+        - mysql-test
+        - php-fpm
 
     php-fpm:
       build: docker/php-fpm
@@ -37,4 +47,16 @@ services:
       image: mailhog/mailhog
       container_name: laravel-mailhog
       ports:
-        - "8085:8025"
+        - "${MAILHOG_PORT}:8025"
+
+    minio:
+      image: minio/minio
+      container_name: laravel-minio
+      command: server /data
+      volumes:
+        - ./docker/minio/data:/data
+      ports:
+        - "${MINIO_PORT}:9000"
+      environment:
+        MINIO_ACCESS_KEY: ${AWS_KEY}
+        MINIO_SECRET_KEY: ${AWS_SECRET}
