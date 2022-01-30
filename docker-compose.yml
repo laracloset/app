@@ -42,6 +42,10 @@ services:
         - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
       entrypoint: bash -c "./entrypoint.sh && /usr/sbin/php-fpm7.4 -O"
 
+    node:
+      build: docker/node
+      container_name: laravel-node
+
     mailhog:
       image: mailhog/mailhog
       container_name: laravel-mailhog
