@@ -95,7 +95,7 @@ class ArticleController extends Controller
 
         $categoryCollection = Category::treeList();
 
-        return view('admin.article.edit', compact('article', 'categoryIds', 'categoryCollection'));
+        return view('admin.article.edit', compact('article', 'categoryCollection'));
     }
 
     /**
