@@ -13,7 +13,7 @@ class ArticleTest extends AdminTestCase
 
     public $article;
 
-    public function setUp()
+    public function setUp() :void
     {
         parent::setUp();
 

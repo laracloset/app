@@ -7,8 +7,6 @@ services:
       environment:
         - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
         - MYSQL_DATABASE=${DB_DATABASE}
-        - MYSQL_USER=${DB_USERNAME}
-        - MYSQL_PASSWORD=${DB_PASSWORD}
       ports:
         - "${MYSQL_PORT}:3306"
 
@@ -18,8 +16,8 @@ services:
       environment:
         - MYSQL_ROOT_PASSWORD=${DB_TEST_PASSWORD}
         - MYSQL_DATABASE=${DB_TEST_DATABASE}
-        - MYSQL_USER=${DB_TEST_USERNAME}
-        - MYSQL_PASSWORD=${DB_TEST_PASSWORD}
+      ports:
+        - "${MYSQL_TEST_PORT}:3306"
 
     webserver:
       image: nginx:alpine
@@ -41,7 +39,7 @@ services:
       working_dir: /application
       volumes:
         - .:/application
-        - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.3/fpm/conf.d/99-overrides.ini
+        - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/7.4/fpm/conf.d/99-overrides.ini
 
     mailhog:
       image: mailhog/mailhog
