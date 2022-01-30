@@ -22,19 +22,13 @@ git clone https://github.com/laracloset/app.git
 cp .env.example .env && docker-compose up -d
 ```
 
-After mysql container is ready, execute below command.
-
-```shell
-docker-compose exec php-fpm bash -c "php composer.phar install && php artisan migrate:refresh --seed"
-``` 
-
 ### Containers
 
 #### Application
 
 Admin
 
-http://localhost:8080/admin/home
+http://localhost:8000/admin/home
 
 ```
 id: admin@example.com
