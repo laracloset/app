@@ -38,6 +38,10 @@ Route::prefix('admin')
         Route::patch('categories/{category}/move_down', 'CategoryController@moveDown')->name('categories.move_down');
         Route::patch('categories/{category}/move_up', 'CategoryController@moveUp')->name('categories.move_up');
 
+        Route::resource('users', 'UserController')->only([
+            'index', 'edit', 'update', 'destroy'
+        ]);
+
         Route::get('/home', 'HomeController@index')->name('home');
     });
 

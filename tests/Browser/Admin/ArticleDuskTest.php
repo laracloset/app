@@ -8,7 +8,6 @@ use App\Models\Category;
 use Faker\Provider\Lorem;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
-use Tests\DuskTestCase;
 
 class ArticleDuskTest extends AdminDuskTestCase
 {

@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Asset;
 use App\Http\Requests\StoreAsset;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\Asset;
 use Illuminate\Support\Facades\Storage;
 
 class AssetController extends Controller

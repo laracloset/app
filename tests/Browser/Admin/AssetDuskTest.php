@@ -6,7 +6,6 @@ namespace Tests\Browser\Admin;
 use App\Models\Asset;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
-use Tests\DuskTestCase;
 
 class AssetDuskTest extends AdminDuskTestCase
 {

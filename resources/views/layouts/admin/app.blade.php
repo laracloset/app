@@ -35,6 +35,9 @@
                     <ul class="navbar-nav mr-auto">
                         @auth('admin')
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.users.index') }}">{{ __('Users') }}</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.articles.index') }}">{{ __('Articles') }}</a>
                             </li>
                             <li class="nav-item">

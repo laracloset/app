@@ -3,9 +3,9 @@
 namespace Tests\Browser;
 
 use App\Models\Article;
-use Tests\DuskTestCase;
-use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class ArticleTest extends DuskTestCase
 {

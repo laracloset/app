@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Request;
 
+use App\Http\Requests\StoreArticle;
 use App\Models\Article;
 use App\Models\Category;
-use App\Http\Requests\StoreArticle;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;

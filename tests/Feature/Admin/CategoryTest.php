@@ -4,7 +4,6 @@ namespace Tests\Feature\Admin;
 
 use App\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Tests\TestCase;
 
 class CategoryTest extends AdminTestCase
 {

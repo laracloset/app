@@ -6,7 +6,6 @@ use App\Models\Asset;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Tests\TestCase;
 
 class AssetTest extends AdminTestCase
 {

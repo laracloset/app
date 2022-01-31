@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Models\Admin;
 use App\Enums\LoginStatusType;
+use App\Models\Admin;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 

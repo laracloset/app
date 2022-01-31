@@ -5,8 +5,8 @@ namespace Tests\Browser\Admin;
 use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class ForgotPasswordTest extends DuskTestCase
 {
