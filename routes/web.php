@@ -29,6 +29,11 @@ Route::prefix('admin')
     ->namespace('Admin')
     ->middleware(['admin_auth:admin', 'check_active_admin'])
     ->name('admin.')->group(function () {
+
+        Route::resource('admins', 'AdminController')->only([
+            'index', 'create', 'store', 'edit', 'update', 'destroy'
+        ]);
+
         Route::resource('articles', 'ArticleController');
 
         Route::resource('assets', 'AssetController');

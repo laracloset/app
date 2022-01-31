@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ArticleStatus;
 use App\Models\Article;
 
 class ArticleController extends Controller
@@ -14,7 +15,7 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::query()
-            ->where('state', Article::PUBLISHED)
+            ->where('state', ArticleStatus::PUBLISHED)
             ->orderBy('id', 'DESC')
             ->paginate();
 
@@ -30,7 +31,7 @@ class ArticleController extends Controller
     public function show($id)
     {
         $article = Article::query()
-            ->where('state', Article::PUBLISHED)
+            ->where('state', ArticleStatus::PUBLISHED)
             ->findOrFail($id);
 
         return view('article.show', compact('article'));

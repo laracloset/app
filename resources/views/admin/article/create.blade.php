@@ -27,7 +27,7 @@
             </div>
             <div class="form-group">
                 <label for="state">State</label>
-                {!! Form::select('state', \App\Models\Article::getAvailableStates(), null, [
+                {!! Form::select('state', \App\Enums\ArticleStatus::asSelectArray(), null, [
                     'class' => 'form-control',
                     'placeholder' => 'Choose...'
                 ]) !!}

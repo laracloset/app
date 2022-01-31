@@ -38,6 +38,9 @@
                                 <a class="nav-link" href="{{ route('admin.users.index') }}">{{ __('Users') }}</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.admins.index') }}">{{ __('Admins') }}</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.articles.index') }}">{{ __('Articles') }}</a>
                             </li>
                             <li class="nav-item">

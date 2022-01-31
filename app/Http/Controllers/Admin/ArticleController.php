@@ -43,9 +43,7 @@ class ArticleController extends Controller
      */
     public function store(StoreOrUpdateArticle $request)
     {
-        DB::beginTransaction();
-
-        try {
+        $saved = DB::transaction(function () use ($request) {
 
             $article = new Article([
                 'title' => $request->get('title'),
@@ -56,18 +54,17 @@ class ArticleController extends Controller
             $article->save();
             $article->categories()->sync($request->get('category'));
 
-        } catch (\Exception $e) {
+            return true;
+        });
 
-            DB::rollback();
-            flash('The article could not been saved. Please, try again.')->error();
+        if ($saved) {
+            flash('The article has been saved.')->success();
 
-            return back()->withInput();
+            return redirect(route('admin.articles.index'));
         }
 
-        DB::commit();
-        flash('The article has been saved.')->success();
-
-        return redirect('/admin/articles');
+        flash('The article could not been saved. Please, try again.')->error();
+        return back()->withInput();
     }
 
     /**
@@ -76,10 +73,8 @@ class ArticleController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Article $article)
     {
-        $article = Article::query()->findOrFail($id);
-
         return view('admin.article.show', compact('article'));
     }
 
@@ -89,10 +84,8 @@ class ArticleController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-        $article = Article::query()->findOrFail($id);
-
         $categoryCollection = Category::treeList();
 
         return view('admin.article.edit', compact('article', 'categoryCollection'));
@@ -105,13 +98,9 @@ class ArticleController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(StoreOrUpdateArticle $request, $id)
+    public function update(StoreOrUpdateArticle $request, Article $article)
     {
-        $article = Article::query()->findOrFail($id);
-
-        DB::beginTransaction();
-
-        try {
+        $saved = DB::transaction(function () use ($article, $request) {
 
             $article->title = $request->get('title');
             $article->slug = $request->get('slug');
@@ -120,18 +109,18 @@ class ArticleController extends Controller
             $article->save();
             $article->categories()->sync($request->get('category'));
 
-        } catch (\Exception $e) {
+            return true;
+        });
 
-            DB::rollBack();
-            flash('The article could not been saved. Please, try again.')->error();
+        if ($saved) {
+            flash('The article has been saved.')->success();
 
-            return back()->withInput();
+            return redirect('/admin/articles');
         }
 
-        DB::commit();
-        flash('The article has been saved.')->success();
+        flash('The article could not been saved. Please, try again.')->error();
 
-        return redirect('/admin/articles');
+        return back()->withInput();
     }
 
     /**
@@ -140,27 +129,20 @@ class ArticleController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Article $article)
     {
-        $article = Article::query()->findOrFail($id);
-
-        DB::beginTransaction();
-
-        try {
-
+        $deleted = DB::transaction(function() use ($article) {
             $article->delete();
 
-        } catch (\Exception $e) {
-
-            DB::rollBack();
-            flash('The article could not be deleted.')->error();
-
-            return back()->withInput();
+            return true;
+        });
+        
+        if ($deleted) {
+            flash('The article has been deleted.')->success();
+            return back();
         }
 
-        DB::commit();
-        flash('The article has been deleted.')->success();
-
-        return back();
+        flash('The article could not be deleted.')->error();
+        return back()->withInput();
     }
 }
