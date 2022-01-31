@@ -21,7 +21,7 @@ class ForgotPasswordTest extends TestCase
         $this->post('/admin/password/email', [
             'email' => $admin->email
         ])
-            ->assertSessionHas('status', 'We have e-mailed your password reset link!');
+            ->assertSessionHas('status', 'We have emailed your password reset link!');
     }
 
     /**
