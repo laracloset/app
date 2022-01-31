@@ -54,12 +54,12 @@ class LoginTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($admin) {
 
-            $browser->visit('/admin/articles')
+            $browser->visit('/admin/posts')
                 ->assertPathIs('/admin/login')
                 ->type('email', $admin->email)
                 ->type('password', 'secret')
                 ->click('@login')
-                ->assertPathIs('/admin/articles');
+                ->assertPathIs('/admin/posts');
         });
     }
 

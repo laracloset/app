@@ -22,7 +22,7 @@ Auth::routes();
 
 Route::get('/home', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('articles', \App\Http\Controllers\ArticleController::class)->only([
+Route::resource('posts', \App\Http\Controllers\PostController::class)->only([
     'index', 'show'
 ]);
 
@@ -34,7 +34,7 @@ Route::prefix('admin')
             'index', 'create', 'store', 'edit', 'update', 'destroy'
         ]);
 
-        Route::resource('articles', \App\Http\Controllers\Admin\ArticleController::class);
+        Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
 
         Route::resource('assets', \App\Http\Controllers\Admin\AssetController::class);
         Route::get('assets/{asset}/download', [\App\Http\Controllers\Admin\AssetController::class, 'download'])->name('assets.download');

@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
-final class ArticleStatus extends Enum
+final class PostStatus extends Enum
 {
     const PUBLISHED = 'published';
     const DRAFT = 'draft';

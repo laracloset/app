@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\ArticleStatus;
-use App\Models\Article;
+use App\Enums\PostStatus;
+use App\Models\Post;
 
-class ArticleController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,12 +14,12 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::query()
-            ->where('state', ArticleStatus::PUBLISHED)
+        $posts = Post::query()
+            ->where('state', PostStatus::PUBLISHED)
             ->orderBy('id', 'DESC')
             ->paginate();
 
-        return view('article.index', compact('articles'));
+        return view('post.index', compact('posts'));
     }
 
     /**
@@ -30,10 +30,10 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article = Article::query()
-            ->where('state', ArticleStatus::PUBLISHED)
+        $post = Post::query()
+            ->where('state', PostStatus::PUBLISHED)
             ->findOrFail($id);
 
-        return view('article.show', compact('article'));
+        return view('post.show', compact('post'));
     }
 }

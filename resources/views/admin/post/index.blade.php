@@ -1,12 +1,12 @@
 @extends('layouts.admin.app')
 
-@section('title', 'Articles')
+@section('title', 'Posts')
 
 @section('content')
-    <a class="btn btn-primary mb-2" href="{{ route('admin.articles.create') }}" role="button">Create Article</a>
+    <a class="btn btn-primary mb-2" href="{{ route('admin.posts.create') }}" role="button">Create Post</a>
     <div class="card">
         <div class="card-header">
-            Articles
+            Posts
         </div>
         <div class="card-body">
             <table class="table">
@@ -17,18 +17,18 @@
                 <th>Actions</th>
                 </thead>
                 <tbody>
-                @foreach($articles as $article)
+                @foreach($posts as $post)
                     <tr>
-                        <td>{{ $article->id }}</td>
-                        <td>{{ $article->title }}</td>
-                        <td>{{ $article->created_at }}</td>
+                        <td>{{ $post->id }}</td>
+                        <td>{{ $post->title }}</td>
+                        <td>{{ $post->created_at }}</td>
                         <td style="white-space: nowrap;">
-                            <a class="btn btn-primary" href="{{ route('admin.articles.show', $article->id) }}"
+                            <a class="btn btn-primary" href="{{ route('admin.posts.show', $post->id) }}"
                                role="button">View</a>
                             <a class="btn btn-primary"
-                               href="{{ route('admin.articles.edit', $article->id) }}"
+                               href="{{ route('admin.posts.edit', $post->id) }}"
                                role="button">Edit</a>
-                            {!! Form::open(['route' => ['admin.articles.destroy', $article->id], 'class' => 'd-inline', 'method' => 'DELETE']) !!}
+                            {!! Form::open(['route' => ['admin.posts.destroy', $post->id], 'class' => 'd-inline', 'method' => 'DELETE']) !!}
                             {!! Form::button('Delete', ['class' => 'btn btn-danger', 'dusk' => 'delete', 'type' => 'submit']) !!}
                             {!! Form::close() !!}
                         </td>
@@ -37,7 +37,7 @@
                 </tbody>
             </table>
 
-            {{ $articles->appends(request()->query())->links() }}
+            {{ $posts->appends(request()->query())->links() }}
         </div>
     </div>
 @endsection
