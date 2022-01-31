@@ -4,7 +4,7 @@ use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 
-$factory->define(\App\Asset::class, function (Faker $faker) {
+$factory->define(\App\Models\Asset::class, function (Faker $faker) {
     $file = UploadedFile::fake()->image('avatar.jpg');
     $path = $file->store('assets');
 

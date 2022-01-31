@@ -2,7 +2,7 @@
 
 namespace Tests\Browser\Admin;
 
-use App\Admin;
+use App\Models\Admin;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Password;
 use Tests\DuskTestCase;

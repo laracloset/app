@@ -11,6 +11,6 @@ class AssetsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Asset::class, 100)->create();
+        factory(\App\Models\Asset::class, 100)->create();
     }
 }

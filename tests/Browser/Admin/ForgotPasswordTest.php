@@ -2,8 +2,8 @@
 
 namespace Tests\Browser\Admin;
 
-use App\Admin;
-use App\User;
+use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;

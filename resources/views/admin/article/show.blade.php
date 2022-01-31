@@ -26,7 +26,7 @@
             </dl>
             <dl>
                 <dt>State</dt>
-                <dd>{{ \App\Article::getState($article->state) }}</dd>
+                <dd>{{ \App\Models\Article::getState($article->state) }}</dd>
             </dl>
             <dl>
                 <dt>Created At</dt>

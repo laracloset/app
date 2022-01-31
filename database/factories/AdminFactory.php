@@ -1,6 +1,6 @@
 <?php
 
-use App\Admin;
+use App\Models\Admin;
 use Faker\Generator as Faker;
 
 $factory->define(Admin::class, function (Faker $faker) {

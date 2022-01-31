@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Asset;
+use App\Models\Asset;
 use App\Http\Requests\StoreAsset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
