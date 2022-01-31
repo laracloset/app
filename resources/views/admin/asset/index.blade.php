@@ -38,7 +38,7 @@
                 </tbody>
             </table>
 
-            {{ $assets->links() }}
+            {{ $assets->appends(request()->query())->links() }}
         </div>
     </div>
 @endsection

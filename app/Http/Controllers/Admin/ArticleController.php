@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\StoreArticle;
 use App\Models\Article;
 use App\Models\Category;
-use App\Http\Requests\StoreArticle;
 use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller

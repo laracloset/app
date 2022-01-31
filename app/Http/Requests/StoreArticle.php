@@ -5,7 +5,6 @@ namespace App\Http\Requests;
 use App\Models\Article;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use MongoDB\Driver\Query;
 
 class StoreArticle extends FormRequest
 {

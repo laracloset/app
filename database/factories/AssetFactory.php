@@ -1,7 +1,6 @@
 <?php
 
 use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 
 $factory->define(\App\Models\Asset::class, function (Faker $faker) {

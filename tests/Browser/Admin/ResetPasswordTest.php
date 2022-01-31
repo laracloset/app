@@ -5,8 +5,8 @@ namespace Tests\Browser\Admin;
 use App\Models\Admin;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Password;
-use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 
 class ResetPasswordTest extends DuskTestCase
 {
