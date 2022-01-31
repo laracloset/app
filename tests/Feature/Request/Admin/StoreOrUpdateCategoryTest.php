@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Feature\Request;
+namespace Tests\Feature\Request\Admin;
 
-use App\Http\Requests\StoreCategory;
+use App\Http\Requests\Admin\StoreOrUpdateCategory;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-class StoreCategoryTest extends TestCase
+class StoreOrUpdateCategoryTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -41,7 +41,7 @@ class StoreCategoryTest extends TestCase
         ];
         $data = array_merge($defaults, [$field => $value]);
 
-        $request = new StoreCategory();
+        $request = new StoreOrUpdateCategory();
         $rules = $request->rules();
 
         $validator = Validator::make($data, $rules);

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\StoreAsset;
+use App\Http\Requests\Admin\StoreOrUpdateAsset;
 use App\Models\Asset;
 use Illuminate\Support\Facades\Storage;
 
@@ -36,10 +36,10 @@ class AssetController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\StoreAsset $request
+     * @param \App\Http\Requests\Admin\StoreOrUpdateAsset $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(StoreAsset $request)
+    public function store(StoreOrUpdateAsset $request)
     {
         $file = $request->file('file');
         $path = $file->store('assets');
@@ -90,11 +90,11 @@ class AssetController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\StoreAsset $request
+     * @param \App\Http\Requests\Admin\StoreOrUpdateAsset $request
      * @param Asset $asset
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(StoreAsset $request, Asset $asset)
+    public function update(StoreOrUpdateAsset $request, Asset $asset)
     {
         if (Storage::exists($asset->path) && !Storage::delete($asset->path)) {
             abort(500);

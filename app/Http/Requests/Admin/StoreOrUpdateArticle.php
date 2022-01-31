@@ -1,13 +1,12 @@
 <?php
 
-
 namespace App\Http\Requests\Admin;
 
-
+use App\Models\Article;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateUser extends FormRequest
+class StoreOrUpdateArticle extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,20 +26,27 @@ class UpdateUser extends FormRequest
     public function rules()
     {
         return [
-            'name' => [
+            'title' => [
                 'required',
                 'max:255',
             ],
-            'email' => [
+            'slug' => [
                 'required',
-                'email',
-                Rule::unique('users')->ignore($this->user),
+                Rule::unique('articles')->ignore($this->article),
+                'max:255'
             ],
-            'password' => [
-                'nullable',
-                'min:6',
-                'confirmed',
+            'body' => [
+                'required'
             ],
+            'state' => [
+                'required',
+                Rule::in(array_keys(Article::getAvailableStates()))
+            ],
+            'category' => [
+                Rule::exists('categories', 'id')->where(function ($query) {
+                    $query->where('deleted_at', null);
+                })
+            ]
         ];
     }
 }

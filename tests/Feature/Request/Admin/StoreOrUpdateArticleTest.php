@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\Feature\Request;
+namespace Tests\Feature\Request\Admin;
 
-use App\Http\Requests\StoreArticle;
+use App\Http\Requests\Admin\StoreOrUpdateArticle;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-class StoreArticleTest extends TestCase
+class StoreOrUpdateArticleTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -42,7 +42,7 @@ class StoreArticleTest extends TestCase
         ];
         $data = array_merge($defaults, [$field => $value]);
 
-        $request = new StoreArticle();
+        $request = new StoreOrUpdateArticle();
         $rules = $request->rules();
 
         $validator = Validator::make($data, $rules);
