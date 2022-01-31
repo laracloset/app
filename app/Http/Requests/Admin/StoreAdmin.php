@@ -3,7 +3,6 @@
 
 namespace App\Http\Requests\Admin;
 
-
 use Illuminate\Validation\Rule;
 
 class StoreAdmin extends AbstractAdmin

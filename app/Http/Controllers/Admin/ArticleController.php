@@ -131,7 +131,7 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        $deleted = DB::transaction(function() use ($article) {
+        $deleted = DB::transaction(function () use ($article) {
             $article->delete();
 
             return true;
