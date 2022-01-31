@@ -15,7 +15,7 @@ class UserTest extends AdminTestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
+        $this->user = User::factory()->create();
     }
 
     /**
@@ -68,7 +68,7 @@ class UserTest extends AdminTestCase
      */
     public function testUpdateWithMissing()
     {
-        $new = factory(User::class)->make();
+        $new = User::factory()->make();
 
         $this->put('/admin/users/0', [
             'name' => $new->name,
