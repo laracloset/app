@@ -5,4 +5,5 @@ until mysqladmin ping -h mysql --silent; do
   sleep 2
 done
 
+php composer.phar install
 php artisan migrate:refresh --seed
