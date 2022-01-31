@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Article;
-use App\Category;
+use App\Models\Article;
+use App\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 

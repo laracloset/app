@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Asset;
+use App\Models\Asset;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;

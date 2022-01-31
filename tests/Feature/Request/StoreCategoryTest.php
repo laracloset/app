@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Request;
 
-use App\Category;
+use App\Models\Category;
 use App\Http\Requests\StoreCategory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Validator;

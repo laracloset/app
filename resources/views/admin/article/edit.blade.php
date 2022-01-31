@@ -29,7 +29,7 @@
             </div>
             <div class="form-group">
                 <label for="state">State</label>
-                {!! Form::select('state', \App\Article::getAvailableStates(), old('state', $article->state), [
+                {!! Form::select('state', \App\Models\Article::getAvailableStates(), old('state', $article->state), [
                     'class' => 'form-control',
                     'placeholder' => 'Choose...'
                 ]) !!}

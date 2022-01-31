@@ -3,8 +3,8 @@
 namespace Tests\Browser\Admin;
 
 
-use App\Article;
-use App\Category;
+use App\Models\Article;
+use App\Models\Category;
 use Faker\Provider\Lorem;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;

@@ -2,7 +2,7 @@
 
 namespace Tests\Browser\Admin;
 
-use App\Admin;
+use App\Models\Admin;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
