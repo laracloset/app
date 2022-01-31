@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Enums\ArticleStatus;
 use App\Models\Article;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -24,7 +25,9 @@ class ArticleTest extends TestCase
      */
     public function testGetDetail()
     {
-        $article = factory(Article::class)->create();
+        $article = factory(Article::class)->create([
+            'state' => ArticleStatus::PUBLISHED
+        ]);
 
         $this->get('/articles/' . $article->id)
             ->assertOk();
@@ -45,7 +48,7 @@ class ArticleTest extends TestCase
     public function testGetDetailWithDraft()
     {
         $draft = factory(Article::class)->create([
-            'state' => Article::DRAFT
+            'state' => ArticleStatus::DRAFT
         ]);
 
         $this->get('/articles/' . $draft->id)

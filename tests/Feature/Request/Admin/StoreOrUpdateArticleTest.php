@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Request\Admin;
 
+use App\Enums\ArticleStatus;
 use App\Http\Requests\Admin\StoreOrUpdateArticle;
 use App\Models\Article;
 use App\Models\Category;
@@ -37,7 +38,7 @@ class StoreOrUpdateArticleTest extends TestCase
             'title' => 'foo',
             'slug' => 'bar',
             'body' => 'baz',
-            'state' => Article::PUBLISHED,
+            'state' => ArticleStatus::PUBLISHED,
             'category' => [],
         ];
         $data = array_merge($defaults, [$field => $value]);
@@ -69,7 +70,7 @@ class StoreOrUpdateArticleTest extends TestCase
             'category' => ['category', [1], true],
             'invalid_category' => ['category', [-1], false],
             'deleted_category' => ['category', [2], false],
-            'state' => ['state', Article::PUBLISHED, true],
+            'state' => ['state', ArticleStatus::PUBLISHED, true],
             'blank_state' => ['state', '', false],
             'invalid_state' => ['state', 'invalid_state', false],
         ];

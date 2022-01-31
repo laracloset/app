@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Models\Article;
+use App\Enums\ArticleStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -40,7 +40,7 @@ class StoreOrUpdateArticle extends FormRequest
             ],
             'state' => [
                 'required',
-                Rule::in(array_keys(Article::getAvailableStates()))
+                Rule::in(ArticleStatus::getValues())
             ],
             'category' => [
                 Rule::exists('categories', 'id')->where(function ($query) {

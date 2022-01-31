@@ -2,20 +2,21 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Models\User;
+use App\Enums\AdminStatus;
+use App\Models\Admin;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class UserTest extends AdminTestCase
+class AdminTest extends AdminTestCase
 {
     use DatabaseMigrations;
 
-    public $user;
+    public $admin;
 
     public function setUp() :void
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->create();
+        $this->admin = factory(Admin::class)->create();
     }
 
     /**
@@ -23,8 +24,32 @@ class UserTest extends AdminTestCase
      */
     public function testIndex()
     {
-        $this->get('/admin/users')
+        $this->get('/admin/admins')
             ->assertOk();
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreate()
+    {
+        $this->get('/admin/admins/create')
+            ->assertOk();
+    }
+
+    /**
+     * @return void
+     */
+    public function testStore()
+    {
+        $this->post('/admin/admins', [
+            'name' => 'foo',
+            'email' => 'test@example.com',
+            'active' => AdminStatus::ACTIVE,
+            'password' => 'secret',
+            'password_confirmation' => 'secret',
+        ])
+            ->assertRedirect('/admin/admins');
     }
 
     /**
@@ -32,7 +57,7 @@ class UserTest extends AdminTestCase
      */
     public function testEdit()
     {
-        $this->get('/admin/users/' . $this->user->id . '/edit')
+        $this->get('/admin/admins/' . $this->admin->id . '/edit')
             ->assertOk();
     }
 
@@ -41,7 +66,7 @@ class UserTest extends AdminTestCase
      */
     public function testEditWithMissing()
     {
-        $this->get('/admin/users/0/edit')
+        $this->get('/admin/admins/0/edit')
             ->assertNotFound();
     }
 
@@ -50,17 +75,18 @@ class UserTest extends AdminTestCase
      */
     public function testUpdate()
     {
-        $this->patch('/admin/users/' . $this->user->id, [
+        $this->patch('/admin/admins/' . $this->admin->id, [
             'name' => 'aaaaa',
             'email' => 'foo@example.com',
+            'active' => AdminStatus::ACTIVE,
             'password' => 'secret',
             'password_confirmation' => 'secret',
         ])
-            ->assertRedirect('/admin/users');
+            ->assertRedirect('/admin/admins');
 
-        $this->user->refresh();
+        $this->admin->refresh();
 
-        $this->assertEquals($this->user->name, 'aaaaa');
+        $this->assertEquals($this->admin->name, 'aaaaa');
     }
 
     /**
@@ -68,9 +94,9 @@ class UserTest extends AdminTestCase
      */
     public function testUpdateWithMissing()
     {
-        $new = factory(User::class)->make();
+        $new = factory(Admin::class)->make();
 
-        $this->put('/admin/users/0', [
+        $this->put('/admin/admins/0', [
             'name' => $new->name,
             'email' => $new->email,
             'password' => 'secret',
@@ -84,10 +110,10 @@ class UserTest extends AdminTestCase
      */
     public function testDestroy()
     {
-        $this->delete('/admin/users/' . $this->user->id)
+        $this->delete('/admin/admins/' . $this->admin->id)
             ->assertRedirect();
 
-        $this->assertDeleted($this->user);
+        $this->assertDeleted($this->admin);
     }
 
     /**
@@ -95,7 +121,7 @@ class UserTest extends AdminTestCase
      */
     public function testDeleteWithMissing()
     {
-        $this->delete('/admin/users/0')
+        $this->delete('/admin/admins/0')
             ->assertNotFound();
     }
 }

@@ -3,6 +3,7 @@
 namespace Tests\Browser\Admin;
 
 
+use App\Enums\ArticleStatus;
 use App\Models\Article;
 use App\Models\Category;
 use Faker\Provider\Lorem;
@@ -189,7 +190,7 @@ class ArticleDuskTest extends AdminDuskTestCase
     public function testFillingFieldsWithOldValues()
     {
         $article = factory(Article::class)->create([
-            'state' => Article::PUBLISHED
+            'state' => ArticleStatus::PUBLISHED
         ]);
         $article->each(function ($a) {
             $a->categories()->saveMany(factory(Category::class, 2)->make());
@@ -203,13 +204,13 @@ class ArticleDuskTest extends AdminDuskTestCase
                 ->type('slug', 'foo')
                 ->type('body', 'bar')
                 ->select('category[]', $article->categories[0]->id)
-                ->select('state', Article::PUBLISHED)
+                ->select('state', ArticleStatus::PUBLISHED)
                 ->click('@add')
                 ->assertInputValue('title', str_repeat('a', 256))
                 ->assertInputValue('slug', 'foo')
                 ->assertInputValue('body', 'bar')
                 ->assertSelected('category[]', $article->categories[0]->id)
-                ->assertSelected('state', Article::PUBLISHED);
+                ->assertSelected('state', ArticleStatus::PUBLISHED);
 
             // Fill title field with invalid value on update existing
             $browser->visit('/admin/articles/' . $article->id . '/edit')

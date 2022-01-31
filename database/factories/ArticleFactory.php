@@ -7,6 +7,6 @@ $factory->define(\App\Models\Article::class, function (Faker $faker) {
         'title' => $faker->sentence(),
         'slug' => $faker->unique()->slug(),
         'body' => $faker->sentence(100),
-        'state' => \App\Models\Article::PUBLISHED
+        'state' => $faker->randomElement(\App\Enums\ArticleStatus::getValues())
     ];
 });

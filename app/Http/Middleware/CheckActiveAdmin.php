@@ -16,7 +16,8 @@ class CheckActiveAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::user()->isActive()) {
+        if (! Auth::user()->isActive()) {
+            Auth::logout();
             abort(403);
         }
 

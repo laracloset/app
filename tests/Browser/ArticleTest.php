@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\Enums\ArticleStatus;
 use App\Models\Article;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
@@ -36,7 +37,7 @@ class ArticleTest extends DuskTestCase
     public function testIndexWithDraft()
     {
         $draft = factory(Article::class)->create([
-            'state' => Article::DRAFT
+            'state' => ArticleStatus::DRAFT
         ]);
 
         $this->browse(function (Browser $browser) use ($draft) {
