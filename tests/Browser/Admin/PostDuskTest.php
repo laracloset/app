@@ -2,7 +2,6 @@
 
 namespace Tests\Browser\Admin;
 
-
 use App\Enums\PostStatus;
 use App\Models\Post;
 use App\Models\Category;
