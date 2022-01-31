@@ -1,40 +1,40 @@
 @extends('layouts.admin.app')
 
-@section('title', 'View Article')
+@section('title', 'View Post')
 
 @section('content')
     <div class="card">
         <div class="card-header">
-            View Article
+            View Post
         </div>
         <div class="card-body">
             <dl>
                 <dt>Id</dt>
-                <dd>{{ $article->id }}</dd>
+                <dd>{{ $post->id }}</dd>
             </dl>
             <dl>
                 <dt>Title</dt>
-                <dd>{{ $article->title }}</dd>
+                <dd>{{ $post->title }}</dd>
             </dl>
             <dl>
                 <dt>Slug</dt>
-                <dd>{{ $article->slug }}</dd>
+                <dd>{{ $post->slug }}</dd>
             </dl>
             <dl>
                 <dt>Body</dt>
-                <dd>{{ $article->body }}</dd>
+                <dd>{{ $post->body }}</dd>
             </dl>
             <dl>
                 <dt>State</dt>
-                <dd>{{ \App\Enums\ArticleStatus::getDescription($article->state) }}</dd>
+                <dd>{{ \App\Enums\PostStatus::getDescription($post->state) }}</dd>
             </dl>
             <dl>
                 <dt>Created At</dt>
-                <dd>{{ $article->created_at }}</dd>
+                <dd>{{ $post->created_at }}</dd>
             </dl>
             <dl>
                 <dt>Updated At</dt>
-                <dd>{{ $article->updated_at }}</dd>
+                <dd>{{ $post->updated_at }}</dd>
             </dl>
         </div>
     </div>

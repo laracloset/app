@@ -1,14 +1,14 @@
 @extends('layouts.admin.app')
 
-@section('title', 'Create Article')
+@section('title', 'Create Post')
 
 @section('content')
     <div class="card">
         <div class="card-header">
-            Add Article
+            Add Post
         </div>
         <div class="card-body">
-            {!! Form::open(['route' => 'admin.articles.store']) !!}
+            {!! Form::open(['route' => 'admin.posts.store']) !!}
             <div class="form-group">
                 <label for="title">Title</label>
                 {!! Form::text('title', null, ['class' => 'form-control']) !!}
@@ -27,7 +27,7 @@
             </div>
             <div class="form-group">
                 <label for="state">State</label>
-                {!! Form::select('state', \App\Enums\ArticleStatus::asSelectArray(), null, [
+                {!! Form::select('state', \App\Enums\PostStatus::asSelectArray(), null, [
                     'class' => 'form-control',
                     'placeholder' => 'Choose...'
                 ]) !!}

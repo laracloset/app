@@ -2,15 +2,15 @@
 
 namespace Tests\Feature\Request\Admin;
 
-use App\Enums\ArticleStatus;
-use App\Http\Requests\Admin\StoreOrUpdateArticle;
-use App\Models\Article;
+use App\Enums\PostStatus;
+use App\Http\Requests\Admin\StoreOrUpdatePost;
+use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-class StoreOrUpdateArticleTest extends TestCase
+class StoreOrUpdatePostTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -21,7 +21,7 @@ class StoreOrUpdateArticleTest extends TestCase
         factory(Category::class, 2)->create();
         Category::query()->latest('id')->first()->delete();
 
-        factory(Article::class)->create([
+        factory(Post::class)->create([
             'slug' => 'foo'
         ]);
     }
@@ -38,12 +38,12 @@ class StoreOrUpdateArticleTest extends TestCase
             'title' => 'foo',
             'slug' => 'bar',
             'body' => 'baz',
-            'state' => ArticleStatus::PUBLISHED,
+            'state' => PostStatus::PUBLISHED,
             'category' => [],
         ];
         $data = array_merge($defaults, [$field => $value]);
 
-        $request = new StoreOrUpdateArticle();
+        $request = new StoreOrUpdatePost();
         $rules = $request->rules();
 
         $validator = Validator::make($data, $rules);
@@ -70,7 +70,7 @@ class StoreOrUpdateArticleTest extends TestCase
             'category' => ['category', [1], true],
             'invalid_category' => ['category', [-1], false],
             'deleted_category' => ['category', [2], false],
-            'state' => ['state', ArticleStatus::PUBLISHED, true],
+            'state' => ['state', PostStatus::PUBLISHED, true],
             'blank_state' => ['state', '', false],
             'invalid_state' => ['state', 'invalid_state', false],
         ];

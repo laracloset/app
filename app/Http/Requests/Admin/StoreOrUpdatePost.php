@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Enums\ArticleStatus;
+use App\Enums\PostStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreOrUpdateArticle extends FormRequest
+class StoreOrUpdatePost extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,7 +32,7 @@ class StoreOrUpdateArticle extends FormRequest
             ],
             'slug' => [
                 'required',
-                Rule::unique('articles')->ignore($this->article),
+                Rule::unique('posts')->ignore($this->post),
                 'max:255'
             ],
             'body' => [
@@ -40,7 +40,7 @@ class StoreOrUpdateArticle extends FormRequest
             ],
             'state' => [
                 'required',
-                Rule::in(ArticleStatus::getValues())
+                Rule::in(PostStatus::getValues())
             ],
             'category' => [
                 Rule::exists('categories', 'id')->where(function ($query) {

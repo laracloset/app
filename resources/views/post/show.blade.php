@@ -1,17 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Articles')
+@section('title', $post->title)
 
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Articles</div>
+                <div class="card-header">{{ $post->title }}</div>
 
                 <div class="card-body">
-                    @foreach($articles as $article)
-                        {{ $article->title }}
-                    @endforeach
+                    {{ $post->body }}
                 </div>
             </div>
         </div>

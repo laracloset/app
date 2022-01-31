@@ -2,12 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Enums\ArticleStatus;
-use App\Models\Article;
+use App\Enums\PostStatus;
+use App\Models\Post;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class ArticleTest extends TestCase
+class PostTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -16,7 +16,7 @@ class ArticleTest extends TestCase
      */
     public function testGetIndex()
     {
-        $this->get('/articles')
+        $this->get('/posts')
             ->assertOk();
     }
 
@@ -25,11 +25,11 @@ class ArticleTest extends TestCase
      */
     public function testGetDetail()
     {
-        $article = factory(Article::class)->create([
-            'state' => ArticleStatus::PUBLISHED
+        $post = factory(Post::class)->create([
+            'state' => PostStatus::PUBLISHED
         ]);
 
-        $this->get('/articles/' . $article->id)
+        $this->get('/posts/' . $post->id)
             ->assertOk();
     }
 
@@ -38,7 +38,7 @@ class ArticleTest extends TestCase
      */
     public function testGetDetailWithInvalidId()
     {
-        $this->get('/articles/0')
+        $this->get('/posts/0')
             ->assertNotFound();
     }
 
@@ -47,11 +47,11 @@ class ArticleTest extends TestCase
      */
     public function testGetDetailWithDraft()
     {
-        $draft = factory(Article::class)->create([
-            'state' => ArticleStatus::DRAFT
+        $draft = factory(Post::class)->create([
+            'state' => PostStatus::DRAFT
         ]);
 
-        $this->get('/articles/' . $draft->id)
+        $this->get('/posts/' . $draft->id)
             ->assertNotFound();
     }
 }

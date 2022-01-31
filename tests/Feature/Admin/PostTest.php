@@ -2,23 +2,23 @@
 
 namespace Tests\Feature\Admin;
 
-use App\Models\Article;
+use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ArticleTest extends AdminTestCase
+class PostTest extends AdminTestCase
 {
     use DatabaseMigrations;
 
-    public $article;
+    public $post;
 
     public function setUp() :void
     {
         parent::setUp();
 
-        $this->article = factory(Article::class)->create();
+        $this->post = factory(Post::class)->create();
 
-        $this->article->each(function ($a) {
+        $this->post->each(function ($a) {
             $a->categories()->save(factory(Category::class)->make());
         });
     }
@@ -28,7 +28,7 @@ class ArticleTest extends AdminTestCase
      */
     public function testIndex()
     {
-        $this->get('/admin/articles')
+        $this->get('/admin/posts')
             ->assertOk();
     }
 
@@ -37,7 +37,7 @@ class ArticleTest extends AdminTestCase
      */
     public function testCreate()
     {
-        $this->get('/admin/articles/create')
+        $this->get('/admin/posts/create')
             ->assertOk();
     }
 
@@ -46,12 +46,12 @@ class ArticleTest extends AdminTestCase
      */
     public function testStore()
     {
-        $all = Article::all();
+        $all = Post::all();
 
         $categories = factory(Category::class, 2)->create();
-        $new = factory(Article::class)->make();
+        $new = factory(Post::class)->make();
 
-        $this->post('/admin/articles', [
+        $this->post('/admin/posts', [
             'title' => $new->title,
             'slug' => $new->slug,
             'body' => $new->body,
@@ -60,11 +60,11 @@ class ArticleTest extends AdminTestCase
                 return $item->id;
             })->all()
         ])
-            ->assertRedirect('/admin/articles');
+            ->assertRedirect('/admin/posts');
 
-        $saved = Article::query()->latest('id')->first();
+        $saved = Post::query()->latest('id')->first();
 
-        $this->assertEquals(1, count(Article::all()) - count($all));
+        $this->assertEquals(1, count(Post::all()) - count($all));
         $this->assertEquals(2, $saved->categories->count());
     }
 
@@ -73,18 +73,18 @@ class ArticleTest extends AdminTestCase
      */
     public function testStoreWithInvalidState()
     {
-        $existing = Article::all()->count();
+        $existing = Post::all()->count();
 
-        $new = factory(Article::class)->make();
+        $new = factory(Post::class)->make();
 
-        $this->post('/admin/articles', [
+        $this->post('/admin/posts', [
             'title' => $new->title,
             'slug' => $new->slug,
             'body' => $new->body,
             'state' => -1
         ]);
 
-        $this->assertEquals(0, Article::all()->count() - $existing);
+        $this->assertEquals(0, Post::all()->count() - $existing);
     }
 
     /**
@@ -92,7 +92,7 @@ class ArticleTest extends AdminTestCase
      */
     public function testShow()
     {
-        $this->get('/admin/articles/' . $this->article->id)
+        $this->get('/admin/posts/' . $this->post->id)
             ->assertOk();
     }
 
@@ -101,7 +101,7 @@ class ArticleTest extends AdminTestCase
      */
     public function testShowWithMissing()
     {
-        $this->get('/admin/articles/0')
+        $this->get('/admin/posts/0')
             ->assertNotFound();
     }
 
@@ -110,7 +110,7 @@ class ArticleTest extends AdminTestCase
      */
     public function testEdit()
     {
-        $this->get('/admin/articles/' . $this->article->id . '/edit')
+        $this->get('/admin/posts/' . $this->post->id . '/edit')
             ->assertOk();
     }
 
@@ -119,7 +119,7 @@ class ArticleTest extends AdminTestCase
      */
     public function testEditWithMissing()
     {
-        $this->get('/admin/articles/0/edit')
+        $this->get('/admin/posts/0/edit')
             ->assertNotFound();
     }
 
@@ -129,9 +129,9 @@ class ArticleTest extends AdminTestCase
     public function testUpdate()
     {
         $categories = factory(Category::class, 2)->create();
-        $new = factory(Article::class)->make();
+        $new = factory(Post::class)->make();
 
-        $this->put('/admin/articles/' . $this->article->id, [
+        $this->put('/admin/posts/' . $this->post->id, [
             'title' => $new->title,
             'slug' => $new->slug,
             'body' => $new->body,
@@ -140,9 +140,9 @@ class ArticleTest extends AdminTestCase
                 return $item->id;
             })->all()
         ])
-            ->assertRedirect('/admin/articles');
+            ->assertRedirect('/admin/posts');
 
-        $updated = Article::query()->find($this->article->id);
+        $updated = Post::query()->find($this->post->id);
 
         $this->assertEquals($updated->title, $new->title);
         $this->assertEquals(2, $updated->categories->count());
@@ -153,9 +153,9 @@ class ArticleTest extends AdminTestCase
      */
     public function testUpdateWithMissing()
     {
-        $new = factory(Article::class)->make();
+        $new = factory(Post::class)->make();
 
-        $this->put('/admin/articles/0', [
+        $this->put('/admin/posts/0', [
             'title' => $new->title,
             'slug' => $new->slug,
             'body' => $new->body,
@@ -169,12 +169,12 @@ class ArticleTest extends AdminTestCase
      */
     public function testDestroy()
     {
-        $this->delete('/admin/articles/' . $this->article->id)
+        $this->delete('/admin/posts/' . $this->post->id)
             ->assertRedirect();
 
-        $this->assertNull(Article::query()->find($this->article->id));
+        $this->assertNull(Post::query()->find($this->post->id));
 
-        $trashed = Article::query()->withTrashed()->find($this->article->id);
+        $trashed = Post::query()->withTrashed()->find($this->post->id);
         $this->assertEquals(1, $trashed->categories()->count());
     }
 
@@ -183,7 +183,7 @@ class ArticleTest extends AdminTestCase
      */
     public function testDeleteWithMissing()
     {
-        $this->delete('/admin/articles/0')
+        $this->delete('/admin/posts/0')
             ->assertNotFound();
     }
 }

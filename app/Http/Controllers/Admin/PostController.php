@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\StoreOrUpdateArticle;
-use App\Models\Article;
+use App\Http\Requests\Admin\StoreOrUpdatePost;
+use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 
-class ArticleController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,11 +16,11 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::query()
+        $posts = Post::query()
             ->orderBy('id', 'DESC')
             ->paginate();
 
-        return view('admin.article.index', compact('articles'));
+        return view('admin.post.index', compact('posts'));
     }
 
     /**
@@ -32,38 +32,38 @@ class ArticleController extends Controller
     {
         $categoryCollection = Category::treeList();
 
-        return view('admin.article.create', compact('categoryCollection'));
+        return view('admin.post.create', compact('categoryCollection'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\Admin\StoreOrUpdateArticle $request
+     * @param \App\Http\Requests\Admin\StoreOrUpdatePost $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(StoreOrUpdateArticle $request)
+    public function store(StoreOrUpdatePost $request)
     {
         $saved = DB::transaction(function () use ($request) {
 
-            $article = new Article([
+            $post = new Post([
                 'title' => $request->get('title'),
                 'slug' => $request->get('slug'),
                 'body' => $request->get('body'),
                 'state' => $request->get('state'),
             ]);
-            $article->save();
-            $article->categories()->sync($request->get('category'));
+            $post->save();
+            $post->categories()->sync($request->get('category'));
 
             return true;
         });
 
         if ($saved) {
-            flash('The article has been saved.')->success();
+            flash('The post has been saved.')->success();
 
-            return redirect(route('admin.articles.index'));
+            return redirect(route('admin.posts.index'));
         }
 
-        flash('The article could not been saved. Please, try again.')->error();
+        flash('The post could not been saved. Please, try again.')->error();
         return back()->withInput();
     }
 
@@ -73,9 +73,9 @@ class ArticleController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Article $article)
+    public function show(Post $post)
     {
-        return view('admin.article.show', compact('article'));
+        return view('admin.post.show', compact('post'));
     }
 
     /**
@@ -84,41 +84,41 @@ class ArticleController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Article $article)
+    public function edit(Post $post)
     {
         $categoryCollection = Category::treeList();
 
-        return view('admin.article.edit', compact('article', 'categoryCollection'));
+        return view('admin.post.edit', compact('post', 'categoryCollection'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\Admin\StoreOrUpdateArticle $request
+     * @param \App\Http\Requests\Admin\StoreOrUpdatePost $request
      * @param  int $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(StoreOrUpdateArticle $request, Article $article)
+    public function update(StoreOrUpdatePost $request, Post $post)
     {
-        $saved = DB::transaction(function () use ($article, $request) {
+        $saved = DB::transaction(function () use ($post, $request) {
 
-            $article->title = $request->get('title');
-            $article->slug = $request->get('slug');
-            $article->body = $request->get('body');
-            $article->state = $request->get('state');
-            $article->save();
-            $article->categories()->sync($request->get('category'));
+            $post->title = $request->get('title');
+            $post->slug = $request->get('slug');
+            $post->body = $request->get('body');
+            $post->state = $request->get('state');
+            $post->save();
+            $post->categories()->sync($request->get('category'));
 
             return true;
         });
 
         if ($saved) {
-            flash('The article has been saved.')->success();
+            flash('The post has been saved.')->success();
 
-            return redirect('/admin/articles');
+            return redirect('/admin/posts');
         }
 
-        flash('The article could not been saved. Please, try again.')->error();
+        flash('The post could not been saved. Please, try again.')->error();
 
         return back()->withInput();
     }
@@ -129,20 +129,20 @@ class ArticleController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Article $article)
+    public function destroy(Post $post)
     {
-        $deleted = DB::transaction(function() use ($article) {
-            $article->delete();
+        $deleted = DB::transaction(function() use ($post) {
+            $post->delete();
 
             return true;
         });
-        
+
         if ($deleted) {
-            flash('The article has been deleted.')->success();
+            flash('The post has been deleted.')->success();
             return back();
         }
 
-        flash('The article could not be deleted.')->error();
+        flash('The post could not be deleted.')->error();
         return back()->withInput();
     }
 }

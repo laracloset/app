@@ -1,35 +1,35 @@
 @extends('layouts.admin.app')
 
-@section('title', 'Edit Article')
+@section('title', 'Edit Post')
 
 @section('content')
     <div class="card">
         <div class="card-header">
-            Edit Article
+            Edit Post
         </div>
         <div class="card-body">
-            {!! Form::open(['route' => ['admin.articles.update', $article->id], 'method' => "PATCH"]) !!}
+            {!! Form::open(['route' => ['admin.posts.update', $post->id], 'method' => "PATCH"]) !!}
             <div class="form-group">
                 <label for="title">Title</label>
-                {!! Form::text('title', old('title', $article->title), ['class' => 'form-control']) !!}
+                {!! Form::text('title', old('title', $post->title), ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
                 <label for="slug">Slug</label>
-                {!! Form::text('slug', old('slug', $article->slug), ['class' => 'form-control']) !!}
+                {!! Form::text('slug', old('slug', $post->slug), ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
                 <label for="body">Body</label>
-                {!! Form::textarea('body', old('body', $article->body), ['class' => 'form-control']) !!}
+                {!! Form::textarea('body', old('body', $post->body), ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
                 <label for="category[]">Category</label>
-                {!! Form::select('category[]', $categoryCollection->toArray(), old('category', $article->categories->map(function ($item, $key) {
+                {!! Form::select('category[]', $categoryCollection->toArray(), old('category', $post->categories->map(function ($item, $key) {
                         return $item->id;
                     })->all()), ['class' => 'form-control', 'multiple']) !!}
             </div>
             <div class="form-group">
                 <label for="state">State</label>
-                {!! Form::select('state', \App\Enums\ArticleStatus::asSelectArray(), old('state', $article->state), [
+                {!! Form::select('state', \App\Enums\PostStatus::asSelectArray(), old('state', $post->state), [
                     'class' => 'form-control',
                     'placeholder' => 'Choose...'
                 ]) !!}
