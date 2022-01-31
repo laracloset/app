@@ -9,7 +9,7 @@ use Tests\DuskTestCase;
 abstract class AdminDuskTestCase extends DuskTestCase
 {
 
-    public function setUp()
+    public function setUp() :void
     {
         parent::setUp();
 
