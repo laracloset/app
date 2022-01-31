@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\StoreArticle;
+use App\Http\Requests\Admin\StoreOrUpdateArticle;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
@@ -38,10 +38,10 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\StoreArticle $request
+     * @param \App\Http\Requests\Admin\StoreOrUpdateArticle $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(StoreArticle $request)
+    public function store(StoreOrUpdateArticle $request)
     {
         DB::beginTransaction();
 
@@ -101,11 +101,11 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\StoreArticle $request
+     * @param \App\Http\Requests\Admin\StoreOrUpdateArticle $request
      * @param  int $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(StoreArticle $request, $id)
+    public function update(StoreOrUpdateArticle $request, $id)
     {
         $article = Article::query()->findOrFail($id);
 

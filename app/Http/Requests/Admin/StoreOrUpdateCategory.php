@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
-use App\Models\Article;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreArticle extends FormRequest
+class StoreOrUpdateCategory extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,23 +25,17 @@ class StoreArticle extends FormRequest
     public function rules()
     {
         return [
-            'title' => [
+            'name' => [
                 'required',
-                'max:255',
+                'max:255'
             ],
             'slug' => [
                 'required',
-                Rule::unique('articles')->ignore($this->article),
-                'max:255'
+                Rule::unique('categories')->ignore($this->category),
+                'max:255',
             ],
-            'body' => [
-                'required'
-            ],
-            'state' => [
-                'required',
-                Rule::in(array_keys(Article::getAvailableStates()))
-            ],
-            'category' => [
+            'parent_id' => [
+                'nullable',
                 Rule::exists('categories', 'id')->where(function ($query) {
                     $query->where('deleted_at', null);
                 })

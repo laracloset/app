@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\StoreOrUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -39,7 +40,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(\App\Http\Requests\Admin\UpdateUser $request, User $user)
+    public function update(StoreOrUser $request, User $user)
     {
         $user->name = $request->get('name');
         $user->email = $request->get('email');

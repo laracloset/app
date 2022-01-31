@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\StoreCategory;
+use App\Http\Requests\Admin\StoreOrUpdateCategory;
 use App\Models\Category;
 
 class CategoryController extends Controller
@@ -36,10 +36,10 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\StoreCategory $request
+     * @param \App\Http\Requests\Admin\StoreOrUpdateCategory $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(StoreCategory $request)
+    public function store(StoreOrUpdateCategory $request)
     {
         $category = new Category([
             'name' => $request->get('name'),
@@ -84,11 +84,11 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\StoreCategory $request
+     * @param \App\Http\Requests\Admin\StoreOrUpdateCategory $request
      * @param  int $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(StoreCategory $request, $id)
+    public function update(StoreOrUpdateCategory $request, $id)
     {
         $category = Category::query()->findOrFail($id);
 

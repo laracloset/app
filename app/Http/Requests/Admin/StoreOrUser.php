@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+
+namespace App\Http\Requests\Admin;
+
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreCategory extends FormRequest
+class StoreOrUser extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,19 +29,18 @@ class StoreCategory extends FormRequest
         return [
             'name' => [
                 'required',
-                'max:255'
-            ],
-            'slug' => [
-                'required',
-                Rule::unique('categories')->ignore($this->category),
                 'max:255',
             ],
-            'parent_id' => [
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users')->ignore($this->user),
+            ],
+            'password' => [
                 'nullable',
-                Rule::exists('categories', 'id')->where(function ($query) {
-                    $query->where('deleted_at', null);
-                })
-            ]
+                'min:6',
+                'confirmed',
+            ],
         ];
     }
 }

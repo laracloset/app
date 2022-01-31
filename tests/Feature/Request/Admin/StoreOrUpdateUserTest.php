@@ -2,12 +2,12 @@
 
 namespace Tests\Feature\Request\Admin;
 
-use App\Http\Requests\Admin\UpdateUser;
+use App\Http\Requests\Admin\StoreOrUser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 
-class UpdateUserTest extends TestCase
+class StoreOrUpdateUserTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -27,7 +27,7 @@ class UpdateUserTest extends TestCase
         ];
         $data = array_merge($defaults, [$field => $value]);
 
-        $request = new UpdateUser();
+        $request = new StoreOrUser();
         $rules = $request->rules();
 
         $validator = Validator::make($data, $rules);
