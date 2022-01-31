@@ -51,24 +51,17 @@ class UserTest extends AdminTestCase
      */
     public function testUpdate()
     {
-        $categories = factory(Category::class, 2)->create();
-        $new = factory(User::class)->make();
-
-        $this->put('/admin/users/' . $this->user->id, [
-            'title' => $new->title,
-            'slug' => $new->slug,
-            'body' => $new->body,
-            'state' => $new->state,
-            'category' => $categories->map(function ($item, $key) {
-                return $item->id;
-            })->all()
+        $this->patch('/admin/users/' . $this->user->id, [
+            'name' => 'aaaaa',
+            'email' => 'foo@example.com',
+            'password' => 'secret',
+            'password_confirmation' => 'secret',
         ])
             ->assertRedirect('/admin/users');
 
-        $updated = User::query()->find($this->user->id);
+        $this->user->refresh();
 
-        $this->assertEquals($updated->title, $new->title);
-        $this->assertEquals(2, $updated->categories->count());
+        $this->assertEquals($this->user->name, 'aaaaa');
     }
 
     /**
@@ -79,10 +72,10 @@ class UserTest extends AdminTestCase
         $new = factory(User::class)->make();
 
         $this->put('/admin/users/0', [
-            'title' => $new->title,
-            'slug' => $new->slug,
-            'body' => $new->body,
-            'state' => $new->state
+            'name' => $new->name,
+            'email' => $new->email,
+            'password' => 'secret',
+            'password_formation' => 'secret',
         ])
             ->assertNotFound();
     }
@@ -95,10 +88,7 @@ class UserTest extends AdminTestCase
         $this->delete('/admin/users/' . $this->user->id)
             ->assertRedirect();
 
-        $this->assertNull(User::query()->find($this->user->id));
-
-        $trashed = User::query()->withTrashed()->find($this->user->id);
-        $this->assertEquals(1, $trashed->categories()->count());
+        $this->assertDeleted($this->user);
     }
 
     /**
